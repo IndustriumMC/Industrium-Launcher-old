@@ -1,0 +1,67 @@
+import crafttweaker.api.ingredient.type.IIngredientEmpty;
+
+craftingTable.removeByName("create_power_loader:crafting/empty_andesite_chunk_loader");
+<recipetype:create:mechanical_crafting>.removeByName("create_power_loader:crafting/empty_brass_chunk_loader");
+
+craftingTable.addShaped(
+    "cbi/empty_netherite_chunk_loader",
+    <item:create_power_loader:empty_andesite_chunk_loader>,
+    [
+        [
+            <tag:items:forge:glass>, 
+            <tag:items:forge:glass>, 
+            <tag:items:forge:glass>
+        ], 
+        [
+            <tag:items:forge:glass>, 
+            <item:minecraft:netherite_block>, 
+            <tag:items:forge:glass>
+        ], 
+        [
+            <item:create:andesite_casing>, 
+            <item:create:shaft>, 
+            <item:create:andesite_casing>
+        ]
+    ]
+);
+<recipetype:create:mechanical_crafting>.addRecipe(
+    "cbi/empty_unobtanium_chunk_loader",
+    <item:create_power_loader:empty_brass_chunk_loader>,
+    [
+        [
+            <tag:items:forge:glass>, 
+            <tag:items:forge:glass>, 
+            <tag:items:forge:glass>, 
+            <tag:items:forge:glass>, 
+            <tag:items:forge:glass>
+        ], 
+        [
+            <tag:items:forge:glass>, 
+            IIngredientEmpty.getInstance(), 
+            IIngredientEmpty.getInstance(), 
+            IIngredientEmpty.getInstance(), 
+            <tag:items:forge:glass>
+        ], 
+        [
+            <tag:items:forge:glass>, 
+            IIngredientEmpty.getInstance(), 
+            <tag:items:minecraft:unobtanium_bar>, 
+            IIngredientEmpty.getInstance(), 
+            <tag:items:forge:glass>
+        ], 
+        [
+            <item:create:brass_casing>, 
+            <item:create:precision_mechanism>, 
+            <item:create:precision_mechanism>, 
+            <item:create:precision_mechanism>, 
+            <item:create:brass_casing>
+        ], 
+        [
+            <item:create:brass_casing>, 
+            <item:create:brass_casing>, 
+            <item:create:shaft>, 
+            <item:create:brass_casing>, 
+            <item:create:brass_casing>
+        ]
+    ]
+);

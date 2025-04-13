@@ -1,0 +1,48 @@
+{
+  "name": "Weapons Supply Box",
+  "key": "csgobox:csgo_key0",
+  "drop": 0.12,
+  "random": [
+    2,
+    5,
+    6,
+    20,
+    625
+  ],
+  "entity": [
+    "minecraft:zombie",
+    "minecraft:skeleton"
+  ],
+  "grade1": [
+    "{\"id\":\"minecraft:stone_sword\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:iron_axe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:iron_shovel\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:iron_pickaxe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:iron_axe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:iron_hoe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:iron_sword\",\"Count\":1,\"tag\":{\"Damage\":0}}"
+  ],
+  "grade2": [
+    "{\"id\":\"minecraft:golden_sword\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:golden_axe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:golden_axe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:golden_pickaxe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:golden_shovel\",\"Count\":1,\"tag\":{\"Damage\":0}}"
+  ],
+  "grade3": [
+    "{\"id\":\"minecraft:diamond_shovel\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:diamond_pickaxe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:diamond_hoe\",\"Count\":1,\"tag\":{\"Damage\":0}}"
+  ],
+  "grade4": [
+    "{\"id\":\"minecraft:diamond_axe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:diamond_sword\",\"Count\":1,\"tag\":{\"Damage\":0}}"
+  ],
+  "grade5": [
+    "{\"id\":\"minecraft:netherite_sword\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:netherite_axe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:netherite_pickaxe\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:netherite_shovel\",\"Count\":1,\"tag\":{\"Damage\":0}}",
+    "{\"id\":\"minecraft:netherite_hoe\",\"Count\":1,\"tag\":{\"Damage\":0}}"
+  ]
+}

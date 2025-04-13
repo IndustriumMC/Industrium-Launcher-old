@@ -1,0 +1,10 @@
+StartupEvents.registry('fluid', event => {
+    event.create('cheese_fluid')
+      .color(0xffc14d)
+      .thinTexture(0xffc14d)
+      .bucketColor(0xffc14d)
+      .displayName('Liquid Cheese')
+      .density(2000)
+      .temperature(310)
+      .viscosity(2000)
+  })

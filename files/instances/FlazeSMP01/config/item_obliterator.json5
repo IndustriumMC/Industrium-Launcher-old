@@ -1,0 +1,106 @@
+{
+  // -----------------------------------------------------------
+  //              Item Obliterator by ElocinDev
+  // -----------------------------------------------------------
+  //  
+  // How to add items?
+  //   - They are json strings, so you need to separate each
+  //     entry with a comma, except the last
+  //   - If you start an entry with !, it will be treated as a regular expression
+  //     Example: "!minecraft:.*_sword" to disable all swords
+  //  
+  // -----------------------------------------------------------
+  // Do not touch this
+  "configVersion": 2,
+  // -----------------------------------------------------------
+  // Items here will be unusable completely
+  //    Example: minecraft:diamond
+  "blacklisted_items": [
+    "ae2:matter_cannon",
+    "mob_grinding_utils:saw",
+    "ae2:crafting_accelerator",
+    "ae2:crafting_unit",
+    "ae2:molecular_assembler",
+    "minecraft:villager_spawn_egg",
+    "ad_astra:desh_cable",
+    "create:creative_crate",
+    "createendertransmission:fluid_transmitter",
+    "createendertransmission:item_transmitter",
+    "createendertransmission:chunk_loader",
+    "alexsmobs:flying_fish_boots",
+    "ae2:creative_item_cell",
+    "ae2:creative_fluid_cell",
+    "sophisticatedbackpacks:gold_backpack",
+    "sophisticatedbackpacks:diamond_backpack",
+    "sophisticatedbackpacks:netherite_backpack",
+    "sophisticatedbackpacks:inception_upgrade",
+    "sophisticatedbackpacks:stack_upgrade_tier_2",
+    "sophisticatedbackpacks:stack_upgrade_tier_3",
+    "sophisticatedbackpacks:stack_upgrade_tier_4",
+    "sophisticatedbackpacks:stack_upgrade_omega_tier",
+    "sophisticatedstorage:stack_upgrade_tier_2",
+    "sophisticatedstorage:stack_upgrade_tier_3",
+    "sophisticatedstorage:stack_upgrade_tier_4",
+    "sophisticatedstorage:stack_upgrade_tier_5",
+    "sophisticatedstorage:stack_upgrade_omega_tier",
+    "sophisticatedbackpacks:survival_infinity_upgrade",
+    "sophisticatedbackpacks:infinity_upgrade",
+    "sophisticatedstorage:survival_infinity_upgrade",
+    "sophisticatedstorage:infinity_upgrade",
+    "storagedrawers:portability_upgrade"
+  ],
+  // -----------------------------------------------------------
+  // Removes an item if it contains certain nbt tag. If the whole entry (or expression) is present, the item gets removed.
+  // Use with caution! This is a very expensive operation and can cause lag if you have a lot of items blacklisted.
+  //  
+  //   Example to disable a regeneration potion: Potion:"minecraft:regeneration"
+  //  
+  //   You can also use regular expressions by starting the value with !
+  "blacklisted_nbt": [
+  "Potion:\"apotheosis:flying\"",
+  "Potion:\"apotheosis:long_flying\"",
+  "Potion:\"apotheosis:extra_long_flying\"",
+  "jeg:infinity",
+  "jeg:trigger_finger",
+  "jeg:withered",
+  "jeg:reclaimed",
+  "jeg:accelerator",
+  "jeg:puncturing",
+  "apotheosis:chainsaw",
+  "apotheosis:endless_quiver",
+  "apotheosis:miners_fervor",
+  "apotheosis:scavenger",
+  "netherexp:cartridge",
+  "netherexp:barrage",
+  "cofh_core:holding",
+  "garnished:striking",
+  "garnished:rejuvenate",
+  "apotheosis:knowledge"
+  ],
+  // -----------------------------------------------------------
+  // Items here will not be able to be right-clicked (Interact)
+  //    Example: minecraft:apple
+  "only_disable_interactions": [
+    "examplemod:example_item"
+  ],
+  // -----------------------------------------------------------
+  // Items here will not be able to be used to attack
+  //    Example: minecraft:diamond_sword
+  "only_disable_attacks": [
+    "examplemod:example_item"
+  ],
+  // -----------------------------------------------------------
+  // Items here will get their recipes disabled
+  // Keep in mind this already is applied to blacklisted items
+  "only_disable_recipes": [
+    "apotheosis:potion_charm"
+  ],
+  // -----------------------------------------------------------
+  // If true, the mod will use a hashset to handle the blacklisted items
+  // This is a more optimized approach only if you have a lot of items blacklisted (20 or more is recommended)
+  // If you just have a small amount of items blacklisted, keep this false
+  //  
+  // [!] Enabling this will disable all regular expressions
+  // [!] Does not apply to NBT, only item blacklist / interaction / attack
+  "use_hashmap_optimizations": true
+}

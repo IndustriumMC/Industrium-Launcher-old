@@ -1,0 +1,15 @@
+
+#.
+#Client-only settings - If you're looking for general settings, look inside your worlds serverconfig folder!
+[client]
+	#.
+	#Show effects of vanilla Golden Apples in their tooltips.
+	vanillaAppleTooltips = true
+	#.
+	#Show effects of food added by the mod in their tooltips.
+	modFoodTooltips = true
+	#.
+	#Show goggle tooltips when looking at Modern Lamps.
+	#Allowed Values: ALWAYS, CROUCH, NEVER
+	modernLampGoggleTooltip = "CROUCH"
+

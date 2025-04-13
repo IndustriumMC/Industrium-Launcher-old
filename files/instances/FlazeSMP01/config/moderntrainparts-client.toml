@@ -1,0 +1,12 @@
+
+#.
+#Client-only settings for Modern Train Parts
+[client]
+	#.
+	#If wires should render offscreen (might worsen performance)
+	render_wires_offscreen = false
+	#.
+	#The spacing between wire hangers
+	#Range: > 1
+	wire_hanger_spacing = 2
+
