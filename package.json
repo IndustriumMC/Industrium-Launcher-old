@@ -1,7 +1,7 @@
 {
     "name": "FlazeSMP-Launcher",
     "preductname": "Flaze SMP Launcher",
-    "version": "2.0.7",
+    "version": "2.0.8",
     "description": "Minecraft Launcher for Flaze SMP server",
     "main": "src/app.js",
     "author": {

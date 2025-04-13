@@ -6,3 +6,4 @@ dist
 node-v*
 data
 .DS_Store
+/files/instances/FlazeSMP01/config/.idea
