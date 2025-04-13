@@ -1,7 +1,7 @@
 {
     "name": "FlazeSMP-Launcher",
     "preductname": "Flaze SMP Launcher",
-    "version": "2.0.8",
+    "version": "2.0.9",
     "description": "Minecraft Launcher for Flaze SMP server",
     "main": "src/app.js",
     "author": {
@@ -9,7 +9,7 @@
         "email": "contact@luuxis.fr",
         "url": "https://github.com/luuxis"
     },
-    "url": "http://flazesmp-launcher.benzoogataga.com",
+    "url": "https://flazesmp-launcher.benzoogataga.com",
     "scripts": {
         "start": "cross-env-shell NODE_ENV=dev electron .",
         "dev": "cross-env-shell DEV_TOOL=open nodemon --exec npm start",
