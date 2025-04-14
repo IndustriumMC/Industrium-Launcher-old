@@ -14,6 +14,7 @@ import logger from './utils/logger.js';
 import popup from './utils/popup.js';
 import { skin2D } from './utils/skin.js';
 import slider from './utils/slider.js';
+import { t } from './utils/translator.js';
 
 async function setBackground(theme) {
     if (typeof theme == 'undefined') {
@@ -82,6 +83,8 @@ async function headplayer(skinBase64) {
     document.querySelector(".player-head").style.backgroundImage = `url(${skin})`;
 }
 
+let lastServerStatus = null;
+
 async function setStatus(opt) {
     let nameServerElement = document.querySelector('.server-status-name')
     let statusServerElement = document.querySelector('.server-status-text')
@@ -89,7 +92,7 @@ async function setStatus(opt) {
 
     if (!opt) {
         statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = `Ferme - 0 ms`
+        statusServerElement.innerHTML = t('status-server-offline', [0]) // Utiliser un tableau
         document.querySelector('.status-player-count').classList.add('red')
         playersOnline.innerHTML = '0'
         return
@@ -100,17 +103,30 @@ async function setStatus(opt) {
     let status = new Status(ip, port);
     let statusServer = await status.getStatus().then(res => res).catch(err => err);
 
+    // Dans la fonction setStatus, vérifier que les bonnes clés de traduction sont utilisées
     if (!statusServer.error) {
         statusServerElement.classList.remove('red')
         document.querySelector('.status-player-count').classList.remove('red')
-        statusServerElement.innerHTML = `En ligne - ${statusServer.ms} ms`
+        
+        // Stocker les données comme attributs
+        statusServerElement.setAttribute('data-ping', statusServer.ms);
+        statusServerElement.setAttribute('data-online', 'true');
+        
+        // Assurez-vous que cette clé existe dans vos fichiers de traduction
+        statusServerElement.innerHTML = t('status-server-ping', [statusServer.ms])
         playersOnline.innerHTML = statusServer.playersConnect
     } else {
         statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = `Ferme - 0 ms`
+        
+        // Stocker les données comme attributs
+        statusServerElement.setAttribute('data-ping', '0');
+        statusServerElement.setAttribute('data-online', 'false');
+        
+        // Assurez-vous que cette clé existe dans vos fichiers de traduction
+        statusServerElement.innerHTML = t('status-server-offline', [0])
         document.querySelector('.status-player-count').classList.add('red')
         playersOnline.innerHTML = '0'
-    }
+}
 }
 
 

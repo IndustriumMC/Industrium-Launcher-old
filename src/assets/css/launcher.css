@@ -193,3 +193,92 @@ input::-webkit-inner-spin-button {
     z-index: 1;
     pointer-events: all;
 }
+
+/* Styles pour le sélecteur de langue */
+.language-selector {
+    position: absolute;
+    top: 10px;
+    right: 70px;
+    z-index: 1000;
+}
+
+.language-btn {
+    background-color: rgba(30, 30, 30, 0.5);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.language-btn:hover {
+    background-color: rgba(40, 40, 40, 0.7);
+}
+
+.current-language {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(30, 30, 30, 0.9);
+    border-radius: 4px;
+    min-width: 120px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 1001;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.language-dropdown.active {
+    display: block;
+}
+
+.language-option {
+    padding: 8px 12px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.language-option:hover {
+    background-color: rgba(60, 60, 60, 0.8);
+}
+
+.language-flag {
+    width: 18px;
+    height: 12px;
+    margin-right: 8px;
+    border-radius: 2px;
+}
+
+.language-name {
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+/* Adaptation pour le thème clair */
+body.light .language-btn {
+    background-color: rgba(220, 220, 220, 0.7);
+    color: #333;
+}
+
+body.light .language-dropdown {
+    background-color: rgba(240, 240, 240, 0.95);
+}
+
+body.light .language-option {
+    color: #333;
+}
+
+body.light .language-option:hover {
+    background-color: rgba(200, 200, 200, 0.8);
+}
