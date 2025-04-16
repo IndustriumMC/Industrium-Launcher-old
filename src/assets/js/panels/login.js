@@ -36,8 +36,8 @@ class Login {
 
         microsoftBtn.addEventListener("click", () => {
             popupLogin.openPopup({
-                title: 'Connexion',
-                content: 'Veuillez patienter...',
+                title: t('connect-connect-home'),
+                content: t('please-wait'),
                 color: 'var(--color)'
             });
 
@@ -46,18 +46,17 @@ class Login {
                     popupLogin.closePopup();
                     return;
                 } else {
-                    await this.saveData(account_connect)
+                    await this.saveData(account_connect);
                     popupLogin.closePopup();
                 }
-
             }).catch(err => {
                 popupLogin.openPopup({
-                    title: 'Erreur',
+                    title: t('cancel-cancel-home'),
                     content: err,
                     options: true
                 });
             });
-        })
+        });
     }
 
     async getCrack() {

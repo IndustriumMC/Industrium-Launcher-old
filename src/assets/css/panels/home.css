@@ -5,6 +5,12 @@
     align-items: center;
 }
 
+.container {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row; /* Assure l'alignement horizontal */
+}
+
 /*******************************************************************************
  *                                                                             *
  * Status server                                                               *
@@ -24,7 +30,7 @@
     color: var(--color);
     border-radius: var(--glass-border-radius);
     border: var(--glass-border);
-    margin-top: 3rem;
+    margin: 3rem auto 0; /* Centré horizontalement avec marge en haut */
     padding: 1rem;
     text-align: center;
     box-shadow: var(--glass-shadow);
@@ -53,6 +59,7 @@
 }
 
 .status-player-count {
+    position: relative;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     background: var(--shadow);
@@ -72,10 +79,10 @@
     content: '';
     width: 10px;
     height: 10px;
-    top: 10px;
-    right: 10px;
-    border-radius: 15px;
-    border: solid 3px var(--glass-bg-dark);
+    top: -5px;    /* Positionné en haut */
+    right: -5px;  /* Positionné à droite */
+    border-radius: 50%; /* Cercle parfait */
+    border: solid 2px var(--glass-bg-dark); /* Légère bordure */
     background: #1AC707;
     box-shadow: 0 0 10px #1AC707;
 }
@@ -90,6 +97,15 @@
     width: 100%;
     height: calc(100% - 80px - 8rem);
     display: flex;
+    flex: 1;      /* Prend l'espace restant */
+    order: 1;     /* Toujours en première position */
+}
+
+.server-status-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 /*******************************************************************************
@@ -120,6 +136,14 @@
 }
 
 .news-list {
+    width: 90%;
+    height: 100%;
+    border-radius: 10px;
+    margin: 1rem 0;
+}
+
+.news-list.content-scroll {
+    overflow-x: hidden;
     width: 90%;
     height: 100%;
     border-radius: 10px;
@@ -192,6 +216,15 @@
     color: rgba(var(--element-color-rgb), 0.9);
 }
 
+.news-section {
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /*******************************************************************************
  *                                                                             *
  * social server                                                               *
@@ -233,9 +266,9 @@
 }
 
 .social-block:hover {
-    transform: translateY(-5px) scale(1.03);
+    transform: translateY(-4px) scale(1.03);
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-    background: rgba(var(--element-color-rgb), 0.2);
+    background: transparent !important;
 }
 
 .social-block .icon-social {
@@ -245,10 +278,6 @@
     width: 55%;
     filter: var(--svg-color);
     transition: all 0.3s ease;
-}
-
-.social-block:hover .icon-social {
-    transform: scale(1.1);
 }
 
 /*******************************************************************************
@@ -268,6 +297,7 @@
     background: var(--background-transparent);
     border-top: var(--glass-border);
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+    order: 2;     /* Toujours en deuxième position */
 }
 
 .player-options {
@@ -290,6 +320,14 @@
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     border: 2px solid rgba(255, 255, 255, 0.1);
+    animation: wave 6s ease-in-out infinite;
+}
+
+/* Effet de vague haut en bas pour player-head keyframes */
+@keyframes wave {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
 }
 
 .player-menu {
@@ -504,4 +542,13 @@
     background: rgba(var(--element-color-rgb), 0.3);
     border: 1px solid rgba(var(--element-color-rgb), 0.5);
     box-shadow: 0 0 15px rgba(var(--element-color-rgb), 0.2);
+}
+
+/* Ajouter cette règle pour les icônes qui ont besoin d'un effet de zoom au survol */
+.icon-element {
+    transition: transform 0.2s ease-in-out;
+}
+
+.icon-element:hover {
+    transform: scale(1.15);
 }

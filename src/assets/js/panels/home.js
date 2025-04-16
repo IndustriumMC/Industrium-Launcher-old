@@ -83,7 +83,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>Couldn't contact news server.</br>Please contact an administrator.</p>
+                            <p>Couldn't load news server.</br>Please contact an administrator.</p>
                         </div>
                     </div>`
             newsElement.appendChild(blockNews);

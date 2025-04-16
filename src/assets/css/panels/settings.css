@@ -195,6 +195,10 @@
 .accounts-list #add {
     justify-content: center;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* espace entre l'icône et le texte */
 }
 
 .add-profile {
@@ -217,6 +221,14 @@
 #add:hover .add-profile {
     background: rgba(var(--element-color-rgb), 0.15);
     transform: scale(1.05);
+}
+
+.account-add-button .account-icon {
+    margin-right: 10px; /* Ajustez selon vos besoins */
+}
+
+.account-add-text {
+    margin-left: 5px;
 }
 
 /* Personnalisation supplémentaire pour les sliders, inputs et boutons */
