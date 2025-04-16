@@ -7,14 +7,14 @@
     <body>
         <div class="dragbar"></div>
         <div class="darwin">
-            <div class="frame">
+            <div class="frame glass">
                 <div id="close" class="button-frame darwin-icon-close"></div>
                 <div id="maximize" class="button-frame darwin-icon-maximize"></div>
                 <div id="minimize" class="button-frame darwin-icon-minimize"></div>
             </div>
         </div>
         <div class="other">
-            <div class="frame">
+            <div class="frame glass">
                 <div id="minimize" class="button-frame icon-minimize"></div>
                 <div id="maximize" class="button-frame icon-maximize"></div>
                 <div id="close" class="button-frame icon-close"></div>
@@ -22,23 +22,21 @@
         </div>
 
         <div class="language-selector">
-            <button class="language-btn"><span class="current-language">EN</span></button>
-            <div class="language-dropdown">
-                <!-- Languages will be added here dynamically -->
-            </div>
+            <button class="language-btn glass-button"><span class="current-language">EN</span></button>
+            <div class="language-dropdown"></div>
         </div>
 
+        <div class="panels"></div>
         <div class="popup">
             <div class="popup-tab">
                 <div class="popup-title"></div>
                 <div class="popup-content"></div>
                 <div class="popup-options">
-                    <button class="popup-button" data-i18n="launcher-popup-btn"></button>
+                    <button class="popup-button">OK</button>
                 </div>
             </div>
         </div>
-        <div class="panels"></div>
-        <script src="assets/js/utils/translator.js" type="module"></script>
+
         <script src="assets/js/launcher.js" type="module"></script>
     </body>
 </html>

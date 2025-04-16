@@ -7,11 +7,27 @@
 
 .login-tabs {
     position: absolute;
-    padding: 15px;
-    background: var(--background);
-    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-bg-dark);
+    border-radius: var(--glass-border-radius);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
     text-align: center;
     min-width: 40%;
+    animation: login-appear 0.4s ease;
+}
+
+@keyframes login-appear {
+    from { 
+        opacity: 0; 
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1; 
+        transform: translateY(0);
+    }
 }
 
 .login-home,
@@ -22,29 +38,62 @@
 }
 
 .login-text {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    margin-bottom: 1.5rem;
+    text-shadow: var(--glass-text-shadow);
 }
 
 .connect,
 .cancel {
-    background: none;
+    background: rgba(var(--element-color-rgb), 0.1);
     color: var(--color);
-    border: solid 4px var(--element-color);
-    border-radius: 10px;
-    padding: 0.3rem 4rem;
+    border: 1px solid rgba(var(--element-color-rgb), 0.4);
+    border-radius: var(--glass-border-radius);
+    padding: 0.5rem 3rem;
     font-size: inherit;
     font-weight: bold;
     margin: 15px 10px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15),
+                inset 0 0 0 1px var(--glass-highlight);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.connect:hover,
+.cancel:hover {
+    background: rgba(var(--element-color-rgb), 0.2);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2),
+                inset 0 0 0 1px var(--glass-highlight);
+}
+
+.input-login {
+    margin: 1.5rem 0;
 }
 
 .input-login .email,
 .input-login .password,
 .A2F {
     color: var(--color);
-    background: none;
-    border: solid 2px var(--element-color);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 30px;
     width: 50%;
-    padding: 0.4rem 1rem;
+    padding: 0.6rem 1.2rem;
     margin-top: 10px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.input-login .email:focus,
+.input-login .password:focus,
+.A2F:focus {
+    border-color: rgba(var(--element-color-rgb), 0.6);
+    box-shadow: 0 0 0 3px rgba(var(--element-color-rgb), 0.2),
+                0 4px 15px rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.08);
 }

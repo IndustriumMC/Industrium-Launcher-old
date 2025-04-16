@@ -26,6 +26,10 @@ async function setBackground(theme) {
     let background
     let body = document.body;
     body.className = theme ? 'dark global' : 'light global';
+    
+    // Ajout de la classe glassmorphic au body
+    body.classList.add('glassmorphic');
+    
     if (fs.existsSync(`${__dirname}/assets/images/background/easterEgg`) && Math.random() < 0.005) {
         let backgrounds = fs.readdirSync(`${__dirname}/assets/images/background/easterEgg`);
         let Background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
@@ -33,10 +37,14 @@ async function setBackground(theme) {
     } else if (fs.existsSync(`${__dirname}/assets/images/background/${theme ? 'dark' : 'light'}`)) {
         let backgrounds = fs.readdirSync(`${__dirname}/assets/images/background/${theme ? 'dark' : 'light'}`);
         let Background = backgrounds[Math.floor(Math.random() * backgrounds.length)];
-        background = `linear-gradient(#00000080, #00000080), url(./assets/images/background/${theme ? 'dark' : 'light'}/${Background})`;
+        
+        // Ajout d'un dégradé plus subtil pour améliorer la visibilité des éléments
+        background = `linear-gradient(rgba(${theme ? '20, 20, 20' : '255, 255, 255'}, 0.6), rgba(${theme ? '20, 20, 20' : '255, 255, 255'}, 0.4)), url(./assets/images/background/${theme ? 'dark' : 'light'}/${Background})`;
     }
     body.style.backgroundImage = background ? background : theme ? '#000' : '#fff';
     body.style.backgroundSize = 'cover';
+    body.style.backgroundPosition = 'center';
+    body.style.backgroundAttachment = 'fixed';
 }
 
 async function changePanel(id) {

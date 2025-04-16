@@ -1,5 +1,7 @@
 @import 'font.css';
 @import 'theme.css';
+@import 'glassmorphism.css';
+@import 'animations.css';
 @import 'panels/login.css';
 @import 'panels/home.css';
 @import 'panels/settings.css';
@@ -11,6 +13,10 @@ body {
     color: var(--color);
     font-family: 'Poppins';
     font-weight: bolder;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    transition: background 0.5s ease;
 }
 
 img {
@@ -30,10 +36,21 @@ input::-webkit-inner-spin-button {
 
 .content-scroll {
     overflow: auto;
+    border-radius: var(--glass-border-radius);
 }
 
 .content-scroll::-webkit-scrollbar {
-    width: 0;
+    width: 6px;
+    background: transparent;
+}
+
+.content-scroll::-webkit-scrollbar-thumb {
+    background: rgba(var(--element-color-rgb), 0.4);
+    border-radius: 10px;
+}
+
+.content-scroll:hover::-webkit-scrollbar-thumb {
+    background: rgba(var(--element-color-rgb), 0.6);
 }
 
 .dragbar {
@@ -136,6 +153,7 @@ input::-webkit-inner-spin-button {
     background-color: #0000009d;
 }
 
+/* Popup design */
 .popup {
     position: absolute;
     width: 100%;
@@ -145,20 +163,46 @@ input::-webkit-inner-spin-button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .popup-tab {
     width: 40%;
-    padding: 15px;
-    background: var(--background);
-    border-radius: 15px;
+    padding: 20px;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-bg-dark);
+    border-radius: var(--glass-border-radius);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
     z-index: 10;
+    animation: popup-appear 0.3s ease;
+}
+
+@keyframes popup-appear {
+    from { 
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .popup-title {
     text-align: center;
     font-size: 2rem;
-    border-bottom: solid 4px var(--color);
+    border-bottom: solid 2px rgba(var(--element-color-rgb), 0.7);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1rem;
+    text-shadow: var(--glass-text-shadow);
+}
+
+.popup-content {
+    line-height: 1.6;
     margin-bottom: 1rem;
 }
 
@@ -169,14 +213,24 @@ input::-webkit-inner-spin-button {
 }
 
 .popup-button {
-    background: none;
+    background: rgba(var(--element-color-rgb), 0.2);
     color: var(--color);
-    border: solid 4px var(--element-color);
+    border: 1px solid rgba(var(--element-color-rgb), 0.4);
     border-radius: 10px;
-    padding: 0.3rem 4rem;
+    padding: 0.5rem 2rem;
     font-size: inherit;
     font-weight: bold;
     margin: 15px 10px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.popup-button:hover {
+    background: rgba(var(--element-color-rgb), 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
 }
 
 .panel {
@@ -186,6 +240,7 @@ input::-webkit-inner-spin-button {
     opacity: 0;
     z-index: 0;
     pointer-events: none;
+    transition: opacity 0.3s ease;
 }
 
 .active {

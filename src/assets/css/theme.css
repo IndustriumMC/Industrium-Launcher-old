@@ -1,24 +1,42 @@
 .global {
     --element-color: #00bd7a;
+    --element-color-rgb: 0, 189, 122; /* Ajout de la valeur RGB pour les effets de transparence */
     --transition: all 0.5s cubic-bezier(1, 0.46, 0, 1.29);
     --dark-color: #292929;
     --light-color: rgb(245, 245, 245);
+    
+    /* Variables pour effets glassmorphiques */
+    --glass-border-radius: 15px;
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.18);
+    --glass-bg-dark: rgba(29, 29, 29, 0.25);
+    --glass-bg-light: rgba(255, 255, 255, 0.15);
 }
 
 .dark {
     --color: #F5F5F5;
     --background: #292929;
-    --background-element: #424242;
-    --background-transparent: #2c2c2ccc;
+    --background-element: rgba(66, 66, 66, 0.6);
+    --background-transparent: rgba(44, 44, 44, 0.7);
     --shadow: rgba(25, 25, 25, 0.7);
     --svg-color: brightness(0) saturate(100%) invert(100%) sepia(55%) saturate(23%) hue-rotate(236deg) brightness(108%) contrast(92%);
+    
+    /* Glass effect colors */
+    --glass-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+    --glass-border-color: rgba(255, 255, 255, 0.1);
 }
 
 .light {
     --color: #151515;
     --background: rgb(245, 245, 245);
-    --background-element: #c2c2c2;
-    --background-transparent: rgba(204, 204, 204, 0.8);
+    --background-element: rgba(194, 194, 194, 0.6);
+    --background-transparent: rgba(204, 204, 204, 0.6);
     --shadow: rgba(208, 208, 208, 0.7);
     --svg-color: brightness(0) saturate(100%) invert(0%) sepia(5%) saturate(1719%) hue-rotate(357deg) brightness(94%) contrast(84%);
+    
+    /* Glass effect colors */
+    --glass-text-shadow: 0 1px 1px rgba(255, 255, 255, 0.15);
+    --glass-highlight: rgba(255, 255, 255, 0.25);
+    --glass-border-color: rgba(255, 255, 255, 0.3);
 }
