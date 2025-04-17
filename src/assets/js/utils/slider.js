@@ -124,21 +124,33 @@ export default class Slider {
     }
 
     calculateValue() {
-        let newValue = (this.lineSpan.offsetWidth - this.normalizeFact) / this.initialValue;
-        let minValue = this.lineSpan.offsetLeft / this.initialValue;
-        let maxValue = minValue + newValue;
-
-        minValue = minValue * (this.max - this.min) + this.min;
-        maxValue = maxValue * (this.max - this.min) + this.min;
-
-        if (this.step != 0.0) {
-            let multi = Math.floor(minValue / this.step);
-            this.minValue = this.step * multi;
-
-            multi = Math.floor(maxValue / this.step);
-            this.maxValue = this.step * multi;
+        // Obtenir les positions actuelles des sliders
+        const leftPosition = this.touchLeft.offsetLeft;
+        const rightPosition = this.touchRight.offsetLeft;
+        const width = this.slider.offsetWidth - this.touchLeft.offsetWidth;
+        
+        // Calculer les valeurs en pourcentage (0-1) en fonction des positions
+        const minValue = Math.max(0, leftPosition / width);
+        const maxValue = Math.max(minValue + 0.1, rightPosition / width);
+        
+        // Convertir les pourcentages en valeurs réelles dans la plage [min, max]
+        const realMinValue = this.min + minValue * (this.max - this.min);
+        const realMaxValue = this.min + maxValue * (this.max - this.min);
+        
+        // Arrondir selon le pas (step)
+        if (this.step != 0) {
+            this.minValue = Math.max(this.min, Math.round(realMinValue / this.step) * this.step);
+            this.maxValue = Math.min(this.max, Math.max(this.minValue + this.step, Math.round(realMaxValue / this.step) * this.step));
+        } else {
+            this.minValue = Math.max(this.min, realMinValue);
+            this.maxValue = Math.min(this.max, Math.max(this.minValue + 0.1, realMaxValue));
         }
-
+        
+        // S'assurer que les valeurs restent dans les limites
+        this.minValue = Math.max(this.min, Math.min(this.max, this.minValue));
+        this.maxValue = Math.max(this.min, Math.min(this.max, this.maxValue));
+        
+        // Émettre l'événement de changement
         this.emit('change', this.minValue, this.maxValue);
     }
 
