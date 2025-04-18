@@ -245,6 +245,9 @@
 .social-list {
     border-radius: 10px;
     height: 100%;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .social-block {
