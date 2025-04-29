@@ -29,7 +29,7 @@ class Home {
                     <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
-                            <div class="title">No news available :/</div>
+                            <div class="title">${t('no-news-title')}</div>
                         </div>
                         <div class="date">
                             <div class="day">1</div>
@@ -38,7 +38,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>You can follow the latest news here.</p>
+                            <p>${t('no-news-content')}</p>
                         </div>
                     </div>`
                 newsElement.appendChild(blockNews);
@@ -61,7 +61,7 @@ class Home {
                         <div class="news-content">
                             <div class="bbWrapper">
                                 <p>${News.content.replace(/\n/g, '</br>')}</p>
-                                <p class="news-author">Author - <span>${News.author}</span></p>
+                                <p class="news-author">${t('author')} - <span>${News.author}</span></p>
                             </div>
                         </div>`
                     newsElement.appendChild(blockNews);
@@ -74,7 +74,7 @@ class Home {
                 <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
-                            <div class="title">Error.</div>
+                            <div class="title">${t('error-title')}</div>
                         </div>
                         <div class="date">
                             <div class="day">1</div>
@@ -83,7 +83,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>Couldn't load news server.</br>Please contact an administrator.</p>
+                            <p>${t('error-news-content').replace(/\n/g, '</br>')}</p>
                         </div>
                     </div>`
             newsElement.appendChild(blockNews);
@@ -198,8 +198,27 @@ class Home {
     }
 
     async startGame() {
+        // Check if there is a currently selected account
+        let configClient = await this.db.readData('configClient');
+        let accounts = await this.db.readAllData('accounts');
+        if (!configClient.account_selected || accounts.length === 0) {
+            let terminatePopup = new popup();
+            terminatePopup.openPopup({
+                title: t('no-account'),
+                content: t('no-account-message'),
+                color: 'var(--color)'
+            });
+            setTimeout(() => {
+                terminatePopup.closePopup();
+                ipcRenderer.send('main-window-close');
+            }, 3000);
+            return;
+        }
+
+        // Existing code...
         let launch = new Launch()
-        let configClient = await this.db.readData('configClient')
+        // Update configClient with the latest data
+        configClient = await this.db.readData('configClient')
         let instance = await config.getInstanceList()
         let authenticator = await this.db.readData('accounts', configClient.account_selected)
         let options = instance.find(i => i.name == configClient.instance_selct)
@@ -256,14 +275,14 @@ class Home {
         });
 
         launch.on('progress', (progress, size) => {
-            infoStarting.innerHTML = `Downloading ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = `${t('downloading')} ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
         });
 
         launch.on('check', (progress, size) => {
-            infoStarting.innerHTML = `Verificating ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = `${t('verifying')} ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
@@ -283,7 +302,7 @@ class Home {
         launch.on('patch', patch => {
             console.log(patch);
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = `Patching...`
+            infoStarting.innerHTML = t('patching')
         });
 
         launch.on('data', (e) => {
@@ -293,7 +312,7 @@ class Home {
             };
             new logger('Minecraft', '#36b030');
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = `Starting...`
+            infoStarting.innerHTML = t('starting')
             console.log(e);
         })
 
@@ -304,7 +323,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = `Verification`
+            infoStarting.innerHTML = t('verification')
             new logger(pkg.name, '#7289da');
             console.log('Close');
         });
@@ -313,7 +332,7 @@ class Home {
             let popupError = new popup()
 
             popupError.openPopup({
-                title: 'Erreur',
+                title: t('error'),
                 content: err.error,
                 color: 'red',
                 options: true
@@ -325,7 +344,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = `Verification`
+            infoStarting.innerHTML = t('verification')
             new logger(pkg.name, '#7289da');
             console.log(err);
         });

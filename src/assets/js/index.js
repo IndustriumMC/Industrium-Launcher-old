@@ -97,9 +97,7 @@ class Splash {
         });
     }
 
-    // Reste des méthodes avec t() pour les traductions...
     async dowloadUpdate() {
-        // Code existant...
         this.setStatus(t("checkupdate-updateavailable") + `<br><div class="download-update">${t("checkupdate-downloadupdate")}</div>`);
         document.querySelector(".download-update").addEventListener("click", () => {
             shell.openExternal(latest.browser_download_url);

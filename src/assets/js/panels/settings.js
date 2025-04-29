@@ -48,33 +48,150 @@ class Settings {
 
     accounts() {
         document.querySelector('.accounts-list').addEventListener('click', async e => {
-            let popupAccount = new popup()
-            try {
-                let accountElement = e.target.closest('.account');
+            // Check if the click is on the delete account button
+            const deleteBtn = e.target.closest('.delete-profile');
+            if (deleteBtn) {
+                let accountElement = deleteBtn.closest('.account');
                 if (!accountElement) return;
-                let id = accountElement.id;
-                popupAccount.openPopup({
-                    title: 'Connection',
-                    content: 'Please wait...',
+                let accountId = accountElement.id;
+
+                // Use built-in popup system for confirmation
+                let confirmPopup = new popup();
+                confirmPopup.openPopup({
+                    title: t('confirm-title'),
+                    content: `
+                        <div class="confirm-content">
+                            <p>${t('confirm-delete-account')}</p>
+                            <div class="popup-buttons">
+                                <button id="popup-confirm-btn" style="
+                                    background: var(--element-color);
+                                    color: white;
+                                    border: none;
+                                    padding: 0.5rem 1rem;
+                                    margin: 0 0.5rem;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                ">${t('yes')}</button>
+                                <button id="popup-cancel-btn" style="
+                                    background: #777;
+                                    color: white;
+                                    border: none;
+                                    padding: 0.5rem 1rem;
+                                    margin: 0 0.5rem;
+                                    border-radius: 5px;
+                                    cursor: pointer;
+                                ">${t('no')}</button>
+                            </div>
+                        </div>
+                    `,
                     color: 'var(--color)'
                 });
-
-                if (id == 'add') {
-                    document.querySelector('.cancel-home').style.display = 'inline'
-                    return changePanel('login')
+                
+                let userConfirmed = await new Promise(resolve => {
+                    document.getElementById("popup-confirm-btn").addEventListener("click", () => {
+                        confirmPopup.closePopup();
+                        resolve(true);
+                    });
+                    document.getElementById("popup-cancel-btn").addEventListener("click", () => {
+                        confirmPopup.closePopup();
+                        resolve(false);
+                    });
+                });
+                if (!userConfirmed) return;
+                
+                try {
+                    // First check how many accounts exist before deletion
+                    let accountsBefore = await this.db.readAllData('accounts');
+                    
+                    // Delete the account from database and UI
+                    await this.db.deleteData('accounts', accountId);
+                    accountElement.remove();
+                    
+                    // Check if there are any accounts left after deletion
+                    let configClient = await this.db.readData('configClient');
+                    let accountsAfter = await this.db.readAllData('accounts');
+                    
+                    // If it was the selected account
+                    if (configClient.account_selected === accountId) {
+                        if (accountsAfter.length > 0) {
+                            // Still have accounts, select first one
+                            configClient.account_selected = accountsAfter[0].ID;
+                            await this.db.updateData('configClient', configClient);
+                            await accountSelect(accountsAfter[0]);
+                            
+                            // Show notification
+                            let notificationPopup = new popup();
+                            notificationPopup.openPopup({
+                                title: t('account-deleted'),
+                                content: t('another-account-selected'),
+                                color: 'var(--color)'
+                            });
+                            setTimeout(() => notificationPopup.closePopup(), 3000);
+                        } else {
+                            // No accounts left
+                            configClient.account_selected = null;
+                            await this.db.updateData('configClient', configClient);
+                            
+                            // If it was the last account being deleted, handle specially
+                            if (accountsBefore.length === 1) {
+                                let closePopup = new popup();
+                                closePopup.openPopup({
+                                    title: t('no-accounts'),
+                                    content: t('no-accounts-message'),
+                                    color: 'var(--color)'
+                                });
+                                
+                                // Actually close the window after a delay
+                                window.setTimeout(() => {
+                                    // Make sure we close the popup before closing the window
+                                    closePopup.closePopup();
+                                    ipcRenderer.send('main-window-close');
+                                }, 3000);
+                            }
+                        }
+                    } else {
+                        // Removed account wasn't selected
+                        let notificationPopup = new popup();
+                        notificationPopup.openPopup({
+                            title: t('account-deleted'),
+                            content: t('account-deleted-success'),
+                            color: 'var(--color)'
+                        });
+                        setTimeout(() => notificationPopup.closePopup(), 2000);
+                    }
+                } catch (err) {
+                    console.error(err);
                 }
-
+                return;
+            }
+            
+            // Handle regular account selection (unchanged)
+            let accountElement = e.target.closest('.account');
+            if (!accountElement) return;
+            let id = accountElement.id;
+            if (id === 'add') {
+                document.querySelector('.cancel-home').style.display = 'inline';
+                return changePanel('login');
+            }
+                
+            let popupAccount = new popup();
+            try {
+                popupAccount.openPopup({
+                    title: t('connection'),
+                    content: t('please-wait'),
+                    color: 'var(--color)'
+                });
                 let account = await this.db.readData('accounts', id);
                 let configClient = await this.setInstance(account);
                 await accountSelect(account);
                 configClient.account_selected = account.ID;
-                return await this.db.updateData('configClient', configClient);
+                await this.db.updateData('configClient', configClient);
             } catch (err) {
-                console.error(err)
+                console.error(err);
             } finally {
                 popupAccount.closePopup();
             }
-        })
+        });
     }
 
     async setInstance(auth) {
@@ -141,7 +258,7 @@ class Settings {
         javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
 
         let configClient = await this.db.readData('configClient')
-        let javaPath = configClient?.java_config?.java_path || 'Utiliser la version de Jdu Launcher';
+        let javaPath = configClient?.java_config?.java_path || t('use-launcher-java');
         let javaPathInputTxt = document.querySelector(".java-path-input-text");
         let javaPathInputFile = document.querySelector(".java-path-input-file");
         javaPathInputTxt.value = javaPath;
@@ -167,7 +284,7 @@ class Settings {
 
         document.querySelector(".java-path-reset").addEventListener("click", async () => {
             let configClient = await this.db.readData('configClient')
-            javaPathInputTxt.value = 'Utiliser la version de Java du Launcher';
+            javaPathInputTxt.value = t('use-launcher-java');
             configClient.java_config.java_path = null
             await this.db.updateData('configClient', configClient);
         });

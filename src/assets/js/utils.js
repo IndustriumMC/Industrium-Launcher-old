@@ -93,6 +93,9 @@ async function headplayer(skinBase64) {
 
 let lastServerStatus = null;
 
+// Add a variable to store the interval ID so we can clear it if needed
+let statusUpdateInterval = null;
+
 async function setStatus(opt) {
     let nameServerElement = document.querySelector('.server-status-name')
     let statusServerElement = document.querySelector('.server-status-text')
@@ -100,43 +103,63 @@ async function setStatus(opt) {
 
     if (!opt) {
         statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = t('status-server-offline', [0]) // Utiliser un tableau
+        statusServerElement.innerHTML = t('status-server-offline', [0]) 
         document.querySelector('.status-player-count').classList.add('red')
         playersOnline.innerHTML = '0'
         return
     }
 
-    let { ip, port, nameServer } = opt
-    nameServerElement.innerHTML = nameServer
-    let status = new Status(ip, port);
-    let statusServer = await status.getStatus().then(res => res).catch(err => err);
+    // Store options globally so they can be reused by the interval
+    const serverOptions = opt;
+    
+    // Define the function that updates the server status
+    async function updateServerStatus() {
+        const { ip, port, nameServer } = serverOptions;
+        nameServerElement.innerHTML = nameServer;
+        let status = new Status(ip, port);
+        let statusServer = await status.getStatus().then(res => res).catch(err => err);
 
-    // Dans la fonction setStatus, vérifier que les bonnes clés de traduction sont utilisées
-    if (!statusServer.error) {
-        statusServerElement.classList.remove('red')
-        document.querySelector('.status-player-count').classList.remove('red')
-        
-        // Stocker les données comme attributs
-        statusServerElement.setAttribute('data-ping', statusServer.ms);
-        statusServerElement.setAttribute('data-online', 'true');
-        
-        // Assurez-vous que cette clé existe dans vos fichiers de traduction
-        statusServerElement.innerHTML = t('status-server-ping', [statusServer.ms])
-        playersOnline.innerHTML = statusServer.playersConnect
-    } else {
-        statusServerElement.classList.add('red')
-        
-        // Stocker les données comme attributs
-        statusServerElement.setAttribute('data-ping', '0');
-        statusServerElement.setAttribute('data-online', 'false');
-        
-        // Assurez-vous que cette clé existe dans vos fichiers de traduction
-        statusServerElement.innerHTML = t('status-server-offline', [0])
-        document.querySelector('.status-player-count').classList.add('red')
-        playersOnline.innerHTML = '0'
-}
+        if (!statusServer.error) {
+            statusServerElement.classList.remove('red')
+            document.querySelector('.status-player-count').classList.remove('red')
+            
+            // Stocker les données comme attributs
+            statusServerElement.setAttribute('data-ping', statusServer.ms);
+            statusServerElement.setAttribute('data-online', 'true');
+            
+            statusServerElement.innerHTML = t('status-server-ping', [statusServer.ms])
+            playersOnline.innerHTML = statusServer.playersConnect
+        } else {
+            statusServerElement.classList.add('red')
+            
+            statusServerElement.setAttribute('data-ping', '0');
+            statusServerElement.setAttribute('data-online', 'false');
+            
+            statusServerElement.innerHTML = t('status-server-offline', [0])
+            document.querySelector('.status-player-count').classList.add('red')
+            playersOnline.innerHTML = '0'
+        }
+    }
+
+    // Perform the first update immediately
+    await updateServerStatus();
+    
+    // Clear any existing interval to avoid multiple intervals running
+    if (statusUpdateInterval) {
+        clearInterval(statusUpdateInterval);
+    }
+    
+    // Set up automatic updates every 10 seconds (10000 ms)
+    statusUpdateInterval = setInterval(updateServerStatus, 10000);
 }
 
+// Function to stop the status updates (call this when switching panels or closing the launcher)
+function stopStatusUpdates() {
+    if (statusUpdateInterval) {
+        clearInterval(statusUpdateInterval);
+        statusUpdateInterval = null;
+    }
+}
 
 export {
     appdata as appdata,
