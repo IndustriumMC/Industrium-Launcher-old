@@ -67,7 +67,12 @@ ipcMain.on('main-window-hide', () => MainWindow.getWindow().hide())
 ipcMain.on('main-window-show', () => MainWindow.getWindow().show())
 
 ipcMain.handle('Microsoft-window', async (_, client_id) => {
-    return await new Microsoft(client_id).getAuth();
+    try {
+        return await new Microsoft(client_id).getAuth();
+    } catch (error) {
+        console.error('Microsoft authentication error:', error);
+        return { error: true, message: 'Failed to authenticate with Microsoft. Please try again later.' };
+    }
 })
 
 ipcMain.handle('is-dark-theme', (_, theme) => {
