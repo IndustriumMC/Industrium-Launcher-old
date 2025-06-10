@@ -117,5 +117,7 @@
   "patching": "Application des correctifs...",
   "starting": "Démarrage...",
   "verification": "Vérification",
-  "error": "Erreur"
+  "error": "Erreur",
+  "access-denied-title": "Accès refusé",
+  "access-denied-message": "Vous n'avez pas l'autorisation d'accéder à ce serveur."
 }
