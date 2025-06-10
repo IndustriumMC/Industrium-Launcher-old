@@ -1,0 +1,24 @@
+/* Basic glassmorphism helpers */
+.glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-bg-dark);
+    border-radius: var(--glass-border-radius);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-button {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: rgba(var(--element-color-rgb), 0.2);
+    border-radius: 10px;
+    border: 1px solid rgba(var(--element-color-rgb), 0.4);
+    color: var(--color);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.glass-button:hover {
+    background: rgba(var(--element-color-rgb), 0.3);
+}
