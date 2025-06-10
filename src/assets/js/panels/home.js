@@ -3,6 +3,7 @@
  * @license CC-BY-NC 4.0 - https://creativecommons.org/licenses/by-nc/4.0
  */
 import { config, database, logger, changePanel, appdata, setStatus, pkg, popup } from '../utils.js'
+const nodeFetch = require('node-fetch')
 
 const { Launch } = require('minecraft-java-core')
 const { shell, ipcRenderer } = require('electron')
@@ -100,9 +101,26 @@ class Home {
         });
     }
 
+    async fetchStaffList() {
+        if (typeof this.staffList !== 'undefined') return this.staffList;
+        try {
+            const res = await nodeFetch('https://benzoogataga.com/stafflist.txt');
+            if (!res.ok) throw new Error('status ' + res.status);
+            let text = await res.text();
+            text = text.replace(/^\uFEFF/, '');
+            this.staffList = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+        } catch (e) {
+            console.error('Failed to fetch staff list', e);
+            this.staffList = null;
+        }
+        return this.staffList;
+    }
+
     async instancesSelect() {
         let configClient = await this.db.readData('configClient')
         let auth = await this.db.readData('accounts', configClient.account_selected)
+        await this.fetchStaffList()
+        let isStaff = Array.isArray(this.staffList) && auth?.name && this.staffList.includes(auth.name)
         let instancesList = await config.getInstanceList()
         let instanceSelect = instancesList.find(i => i.name == configClient?.instance_selct) ? configClient?.instance_selct : null
 
@@ -110,14 +128,26 @@ class Home {
         let instancePopup = document.querySelector('.instance-popup')
         let instancesListPopup = document.querySelector('.instances-List')
         let instanceCloseBTN = document.querySelector('.close-popup')
+        let instanceArrow = document.querySelector('.instance-select')
 
-        if (instancesList.length === 1) {
-            document.querySelector('.instance-select').style.display = 'none'
-            instanceBTN.style.paddingRight = '0'
+        const canAccess = (inst) => {
+            if (inst.name !== 'FlazeSMP01' && !isStaff) return false;
+            if (inst.whitelistActive) return inst.whitelist.includes(auth?.name);
+            return true;
         }
 
-        if (!instanceSelect) {
-            let newInstanceSelect = instancesList.find(i => i.whitelistActive == false)
+        const accessibleInstances = instancesList.filter(canAccess)
+
+        if (accessibleInstances.length === 1) {
+            instanceArrow.style.display = 'none'
+            instanceBTN.style.paddingRight = '0'
+        } else {
+            instanceArrow.style.display = ''
+            instanceBTN.style.paddingRight = ''
+        }
+
+        if (!instanceSelect || !instancesList.find(i => i.name == instanceSelect && canAccess(i))) {
+            let newInstanceSelect = instancesList.find(i => i.name === 'FlazeSMP01') || instancesList[0]
             let configClient = await this.db.readData('configClient')
             configClient.instance_selct = newInstanceSelect.name
             instanceSelect = newInstanceSelect.name
@@ -125,20 +155,8 @@ class Home {
         }
 
         for (let instance of instancesList) {
-            if (instance.whitelistActive) {
-                let whitelist = instance.whitelist.find(whitelist => whitelist == auth?.name)
-                if (whitelist !== auth?.name) {
-                    if (instance.name == instanceSelect) {
-                        let newInstanceSelect = instancesList.find(i => i.whitelistActive == false)
-                        let configClient = await this.db.readData('configClient')
-                        configClient.instance_selct = newInstanceSelect.name
-                        instanceSelect = newInstanceSelect.name
-                        setStatus(newInstanceSelect.status)
-                        await this.db.updateData('configClient', configClient)
-                    }
-                }
-            } else console.log(`Initializing instance ${instance.name}...`)
-            if (instance.name == instanceSelect) setStatus(instance.status)
+            if (!canAccess(instance)) continue
+            if (instance.name == instanceSelect) await setStatus(instance.status)
         }
 
         instancePopup.addEventListener('click', async e => {
@@ -146,6 +164,7 @@ class Home {
 
             if (e.target.classList.contains('instance-elements')) {
                 let newInstanceSelect = e.target.id
+                if (!canAccess(instancesList.find(i => i.name == newInstanceSelect))) return;
                 let activeInstanceSelect = document.querySelector('.active-instance')
 
                 if (activeInstanceSelect) activeInstanceSelect.classList.toggle('active-instance');
@@ -169,22 +188,11 @@ class Home {
             if (e.target.classList.contains('instance-select')) {
                 instancesListPopup.innerHTML = ''
                 for (let instance of instancesList) {
-                    if (instance.whitelistActive) {
-                        instance.whitelist.map(whitelist => {
-                            if (whitelist == auth?.name) {
-                                if (instance.name == instanceSelect) {
-                                    instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`
-                                } else {
-                                    instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`
-                                }
-                            }
-                        })
+                    if (!canAccess(instance)) continue
+                    if (instance.name == instanceSelect) {
+                        instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`
                     } else {
-                        if (instance.name == instanceSelect) {
-                            instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`
-                        } else {
-                            instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`
-                        }
+                        instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`
                     }
                 }
 
@@ -221,7 +229,19 @@ class Home {
         configClient = await this.db.readData('configClient')
         let instance = await config.getInstanceList()
         let authenticator = await this.db.readData('accounts', configClient.account_selected)
+        await this.fetchStaffList()
+        let isStaff = Array.isArray(this.staffList) && authenticator?.name && this.staffList.includes(authenticator.name)
         let options = instance.find(i => i.name == configClient.instance_selct)
+
+        if (!isStaff && options.name !== 'FlazeSMP01') {
+            new popup().openPopup({
+                title: t('access-denied-title'),
+                content: t('access-denied-message'),
+                color: 'red',
+                options: true
+            });
+            return;
+        }
 
         let playInstanceBTN = document.querySelector('.play-instance')
         let infoStartingBOX = document.querySelector('.info-starting-game')
