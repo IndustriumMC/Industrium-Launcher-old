@@ -13,6 +13,7 @@ body {
     color: var(--color);
     font-family: 'Poppins';
     font-weight: bolder;
+    background: var(--background-gradient);
     background-size: cover;
     background-position: center;
     background-attachment: fixed;

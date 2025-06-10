@@ -1,0 +1,40 @@
+.glass {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: var(--glass-bg-dark);
+    border-radius: var(--glass-border-radius);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}
+
+.glass-light {
+    background: var(--glass-bg-light);
+}
+
+.glass-button {
+    border: 1px solid rgba(var(--element-color-rgb), 0.4);
+    background: rgba(var(--element-color-rgb), 0.2);
+    color: var(--color);
+    padding: 0.4rem 1rem;
+    border-radius: var(--glass-border-radius);
+    cursor: pointer;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: var(--transition);
+}
+
+.glass-button:hover {
+    background: rgba(var(--element-color-rgb), 0.3);
+    transform: translateY(-2px);
+}
+
+.glass-panel {
+    padding: 2rem;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: var(--glass-bg-dark);
+    border-radius: var(--glass-border-radius);
+    border: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+}

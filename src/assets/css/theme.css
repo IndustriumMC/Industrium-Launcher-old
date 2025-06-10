@@ -11,6 +11,7 @@
     --glass-border: 1px solid rgba(255, 255, 255, 0.18);
     --glass-bg-dark: rgba(29, 29, 29, 0.25);
     --glass-bg-light: rgba(255, 255, 255, 0.15);
+    --background-gradient: linear-gradient(135deg, #1a1a1a 0%, #323232 100%);
 }
 
 .dark {
@@ -25,6 +26,7 @@
     --glass-text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15);
     --glass-highlight: rgba(255, 255, 255, 0.05);
     --glass-border-color: rgba(255, 255, 255, 0.1);
+    --background-gradient: linear-gradient(135deg, #1a1a1a 0%, #323232 100%);
 }
 
 .light {
@@ -39,4 +41,5 @@
     --glass-text-shadow: 0 1px 1px rgba(255, 255, 255, 0.15);
     --glass-highlight: rgba(255, 255, 255, 0.25);
     --glass-border-color: rgba(255, 255, 255, 0.3);
+    --background-gradient: linear-gradient(135deg, #ffffff 0%, #d9d9d9 100%);
 }

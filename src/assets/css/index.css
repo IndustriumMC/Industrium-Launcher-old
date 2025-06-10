@@ -1,15 +1,28 @@
 @import "font.css";
 @import 'theme.css';
+@import 'glassmorphism.css';
 
 body {
-    background-color: var(--background);
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color);
     font-family: "Poppins";
     letter-spacing: 0px;
+    background: var(--background-gradient);
+    background-attachment: fixed;
 }
 
 img {
     -webkit-user-drag: none;
     user-select: none;
+}
+
+#splash {
+    display: none;
+    position: relative;
 }
 
 .splash {
