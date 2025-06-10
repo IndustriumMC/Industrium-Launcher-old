@@ -262,10 +262,6 @@ class Home {
             }
         }
 
-        if (options.name == "FlazeSMP01") { // Name of the prod instance
-            opt.args = ['--autoconnect=mc.benzoogataga.com']; // Let the game auto connect to the production server
-        }
-
         launch.Launch(opt);
 
         playInstanceBTN.style.display = "none"
