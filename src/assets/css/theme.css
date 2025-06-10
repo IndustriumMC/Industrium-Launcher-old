@@ -1,6 +1,6 @@
 .global {
-    --element-color: #00bd7a;
-    --element-color-rgb: 0, 189, 122; /* Ajout de la valeur RGB pour les effets de transparence */
+    --element-color: #9b59b6;
+    --element-color-rgb: 155, 89, 182; /* RGB value used for transparency effects */
     --transition: all 0.5s cubic-bezier(1, 0.46, 0, 1.29);
     --dark-color: #292929;
     --light-color: rgb(245, 245, 245);
