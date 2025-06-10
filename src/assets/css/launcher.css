@@ -6,6 +6,17 @@
 @import 'panels/home.css';
 @import 'panels/settings.css';
 
+.launcher-container {
+    margin: auto;
+    width: 90%;
+    max-width: 1200px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
 body {
     margin: 0;
     padding: 0;

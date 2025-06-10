@@ -1,5 +1,6 @@
 @import "font.css";
 @import 'theme.css';
+@import 'glassmorphism.css';
 
 body {
     background-color: var(--background);
@@ -12,14 +13,19 @@ img {
     user-select: none;
 }
 
-.splash {
+#splash {
     position: absolute;
-    top: 180px;
+    top: 50%;
     left: 50%;
-    transform: translate(-50%);
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.splash {
     width: 140px;
     height: 140px;
-    transition: opacity .3s, top 1.5s;
+    margin: 0 auto;
+    transition: opacity 0.3s, transform 1.5s;
     opacity: 0;
 }
 
@@ -28,14 +34,12 @@ img {
 }
 
 .splash.translate {
-    top: 129px;
+    transform: translateY(-50px);
 }
 
 .splash-message {
-    position: absolute;
-    top: 289px;
-    left: 0px;
-    width: 400px;
+    margin-top: 1rem;
+    width: 100%;
     font: normal normal bold 19px/29px Poppins;
     text-align: center;
     letter-spacing: 0px;
@@ -49,10 +53,8 @@ img {
 }
 
 .splash-author {
-    position: absolute;
-    top: 326px;
-    left: 0px;
-    width: 400px;
+    margin-top: 0.5rem;
+    width: 100%;
     text-align: center;
     transition: opacity 1.5s;
     font: normal normal normal 9px/13px Poppins;
@@ -69,10 +71,8 @@ img {
 }
 
 .message {
-    position: absolute;
-    top: 347px;
-    left: 0px;
-    width: 400px;
+    margin-top: 1rem;
+    width: 100%;
     text-align: center;
     transition: opacity 1.5s;
     font: normal normal bold 18px/27px Poppins;
@@ -81,8 +81,7 @@ img {
 }
 
 .download-update {
-    position: absolute;
-    left: 25%;
+    position: relative;
     margin-top: 20px;
     width: 200px;
     font: normal normal bold 22px / 45px Poppins;
@@ -103,11 +102,10 @@ img {
 }
 
 .progress {
-    position: absolute;
-    top: 410px;
-    left: 106px;
-    width: 189px;
+    position: relative;
+    width: 60%;
     height: 10px;
+    margin: 1rem auto;
     appearance: none;
     transition: opacity .2s;
     opacity: 0;
