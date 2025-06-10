@@ -8,7 +8,7 @@ This project is a Node.js/Electron launcher.
 
 ## Build Verification
 - Ensure Node.js **18.x** and Python **3.x** are installed.
-- Run `npm ci` to install dependencies.
+- Run `npm install` to install dependencies.
 - Validate the project builds successfully with `npm run build` before committing changes.
 
 ## Pull Request Guidance
