@@ -127,7 +127,9 @@ class Launcher {
             div.classList.add('panel', panel.id)
             div.innerHTML = fs.readFileSync(`${__dirname}/panels/${panel.id}.html`, 'utf8');
             panelsElem.appendChild(div);
-            new panel().init(this.config);
+            let instance = new panel();
+            instance.init(this.config);
+            if (panel.id === 'home') this.homePanel = instance;
         }
     }
 
@@ -259,6 +261,9 @@ class Launcher {
 
             popupRefresh.closePopup()
             changePanel("home");
+            if (this.homePanel && typeof this.homePanel.instancesSelect === 'function') {
+                this.homePanel.instancesSelect();
+            }
         } else {
             popupRefresh.closePopup()
             changePanel('login');

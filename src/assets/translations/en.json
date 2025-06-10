@@ -117,5 +117,7 @@
   "patching": "Patching...",
   "starting": "Starting...",
   "verification": "Verification",
-  "error": "Error"
+  "error": "Error",
+  "access-denied-title": "Access Denied",
+  "access-denied-message": "You do not have permission to access this server."
 }
