@@ -128,6 +128,7 @@ class Home {
         let instancePopup = document.querySelector('.instance-popup')
         let instancesListPopup = document.querySelector('.instances-List')
         let instanceCloseBTN = document.querySelector('.close-popup')
+        let instanceArrow = document.querySelector('.instance-select')
 
         const canAccess = (inst) => {
             if (inst.name !== 'FlazeSMP01' && !isStaff) return false;
@@ -135,9 +136,14 @@ class Home {
             return true;
         }
 
-        if (instancesList.length === 1) {
-            document.querySelector('.instance-select').style.display = 'none'
+        const accessibleInstances = instancesList.filter(canAccess)
+
+        if (accessibleInstances.length === 1) {
+            instanceArrow.style.display = 'none'
             instanceBTN.style.paddingRight = '0'
+        } else {
+            instanceArrow.style.display = ''
+            instanceBTN.style.paddingRight = ''
         }
 
         if (!instanceSelect || !instancesList.find(i => i.name == instanceSelect && canAccess(i))) {
