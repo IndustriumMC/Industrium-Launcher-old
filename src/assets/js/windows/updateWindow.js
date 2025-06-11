@@ -35,6 +35,15 @@ function createWindow() {
             nodeIntegration: true
         },
     });
+    const csp = "default-src 'self'; script-src 'self'; connect-src 'self' https://translation.benzoogataga.com; img-src 'self' data:; style-src 'self' 'unsafe-inline'";
+    updateWindow.webContents.session.webRequest.onHeadersReceived((d, cb) => {
+        cb({
+            responseHeaders: {
+                ...d.responseHeaders,
+                'Content-Security-Policy': [csp]
+            }
+        });
+    });
     Menu.setApplicationMenu(null);
     updateWindow.setMenuBarVisibility(false);
     updateWindow.loadFile(path.join(`${app.getAppPath()}/src/index.html`));

@@ -14,7 +14,7 @@ import logger from './utils/logger.js';
 import popup from './utils/popup.js';
 import { skin2D } from './utils/skin.js';
 import slider from './utils/slider.js';
-import { t } from './utils/translator.js';
+import { t } from './tolgee.js';
 
 async function setBackground(theme) {
     if (typeof theme == 'undefined') {

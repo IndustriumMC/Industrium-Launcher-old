@@ -9,7 +9,7 @@ import Settings from './panels/settings.js';
 
 // import modules
 import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg } from './utils.js';
-import { initTranslator } from './utils/translator.js';
+import { runTolgee } from './tolgee.js';
 const { AZauth, Microsoft, Mojang } = require('minecraft-java-core');
 
 // libs
@@ -19,7 +19,7 @@ const os = require('os');
 
 class Launcher {
     async init() {
-        await initTranslator();
+        await runTolgee();
 
         this.initLog();
         console.log('Initializing Launcher...');

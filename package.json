@@ -23,6 +23,7 @@
         "ignore": "**/test"
     },
     "dependencies": {
+        "@tolgee/web": "^6.2.5",
         "electron-updater": "^6.1.8",
         "minecraft-java-core": "^4.1.1",
         "node-bdd": "^2.0.4",
