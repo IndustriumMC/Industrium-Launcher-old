@@ -7,7 +7,7 @@ const { ipcRenderer, shell } = require('electron');
 const pkg = require('../package.json');
 const os = require('os');
 import { config, database } from './utils.js';
-import { initTranslator, t } from './utils/translator.js';
+import { initTranslator, t } from './utils/tolgee.js';
 const nodeFetch = require("node-fetch");
 
 // Une seule initialisation

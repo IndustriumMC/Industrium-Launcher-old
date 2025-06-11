@@ -221,6 +221,9 @@ class Settings {
 
         document.getElementById("total-ram").textContent = `${totalMem} Go`;
         document.getElementById("free-ram").textContent = `${freeMem} Go`;
+        document.querySelector('.ram-info-block').innerHTML =
+            `${t('ram-info-block1', { '1': '<span id="total-ram">'+totalMem+' Go</span>' })}<br>` +
+            t('ram-info-block2', { '1': '<span id="free-ram">'+freeMem+' Go</span>' });
 
         let sliderDiv = document.querySelector(".memory-slider");
         sliderDiv.setAttribute("max", Math.trunc((80 * totalMem) / 100));
@@ -254,8 +257,10 @@ class Settings {
     }
 
     async javaPath() {
-        let javaPathText = document.querySelector(".java-path-txt")
-        javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
+       let javaPathText = document.querySelector(".java-path-txt")
+       javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
+        document.querySelector('#java-tab .setting-text').innerHTML =
+            t('java-location-description', { '1': `<span class="java-path-txt"></span>` });
 
         let configClient = await this.db.readData('configClient')
         let javaPath = configClient?.java_config?.java_path || t('use-launcher-java');
