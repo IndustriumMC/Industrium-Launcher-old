@@ -36,7 +36,27 @@
                 </div>
             </div>
         </div>
+        <div id="loading"></div>
+        <script src="https://cdn.jsdelivr.net/npm/@tolgee/web/dist/tolgee-web.umd.min.js"></script>
+        <script>
+const { Tolgee, InContextTools, FormatSimple, BackendFetch } = window['@tolgee/web'];
 
+const tolgee = Tolgee()
+  .use(InContextTools())
+  .use(FormatSimple())
+  .use(BackendFetch())
+  .init({
+    apiKey: 'tgpak_gm2f6zlemfsxg4dgmzyg6n3hniyxamzthfvdg4zqm5tggyq',
+    apiUrl: 'https://translation.benzoogataga.com',
+    defaultLanguage: 'en',
+    observerType: 'text',
+    observerOptions: { inputPrefix: '{{', inputSuffix: '}}' },
+  });
+
+tolgee.run().then(() => {
+  document.getElementById('loading').style.display = 'none';
+});
+        </script>
         <script src="assets/js/launcher.js" type="module"></script>
     </body>
 </html>

@@ -7,12 +7,11 @@ const { ipcRenderer, shell } = require('electron');
 const pkg = require('../package.json');
 const os = require('os');
 import { config, database } from './utils.js';
-import { initTranslator, t } from './utils/translator.js';
+
 const nodeFetch = require("node-fetch");
 
 // Une seule initialisation
-document.addEventListener('DOMContentLoaded', async () => {
-    await initTranslator();
+document.addEventListener('DOMContentLoaded', () => {
     new Splash();
 });
 
@@ -44,9 +43,9 @@ class Splash {
     async startAnimation() {
         // Utiliser les clés de traduction pour les messages splash
         let splashes = [
-            { "message": t("startanimation1-text"), "author": t("startanimation1-author") },
-            { "message": t("startanimation2-text"), "author": t("startanimation2-author") },
-            { "message": t("startanimation3-text"), "author": t("startanimation3-author") }
+            { "message": tolgee.t("startanimation1-text"), "author": tolgee.t("startanimation1-author") },
+            { "message": tolgee.t("startanimation2-text"), "author": tolgee.t("startanimation2-author") },
+            { "message": tolgee.t("startanimation3-text"), "author": tolgee.t("startanimation3-author") }
         ];
         
         let splash = splashes[Math.floor(Math.random() * splashes.length)];
@@ -66,15 +65,15 @@ class Splash {
     }
 
     async checkUpdate() {
-        // Utiliser t() pour toutes les chaînes de texte
-        this.setStatus(t("checkupdate-setstatus"));
+        // Utiliser tolgee.t() pour toutes les chaînes de texte
+        this.setStatus(tolgee.t("checkupdate-setstatus"));
 
         ipcRenderer.invoke('update-app').then().catch(err => {
-            return this.shutdown(t("checkupdate-updateapp") + `<br>${err.message}`);
+            return this.shutdown(tolgee.t("checkupdate-updateapp") + `<br>${err.message}`);
         });
 
         ipcRenderer.on('updateAvailable', () => {
-            this.setStatus(t("checkupdate-updateavailable"));
+            this.setStatus(tolgee.t("checkupdate-updateavailable"));
             if (os.platform() == 'win32') {
                 this.toggleProgress();
                 ipcRenderer.send('start-update');
@@ -92,16 +91,16 @@ class Splash {
         });
 
         ipcRenderer.on('update-not-available', () => {
-            console.error(t("checkupdate-updatenotavailable"));
+            console.error(tolgee.t("checkupdate-updatenotavailable"));
             this.maintenanceCheck();
         });
     }
 
     async dowloadUpdate() {
-        this.setStatus(t("checkupdate-updateavailable") + `<br><div class="download-update">${t("checkupdate-downloadupdate")}</div>`);
+        this.setStatus(tolgee.t("checkupdate-updateavailable") + `<br><div class="download-update">${tolgee.t("checkupdate-downloadupdate")}</div>`);
         document.querySelector(".download-update").addEventListener("click", () => {
             shell.openExternal(latest.browser_download_url);
-            return this.shutdown(t("checkupdate-downloadupdate"));
+            return this.shutdown(tolgee.t("checkupdate-downloadupdate"));
         });
     }
 
@@ -111,22 +110,22 @@ class Splash {
             this.startLauncher();
         }).catch(e => {
             console.error(e);
-            return this.shutdown(t("checkupdate-nointernet"));
+            return this.shutdown(tolgee.t("checkupdate-nointernet"));
         });
     }
 
     startLauncher() {
-        this.setStatus(t("startlauncher"));
+        this.setStatus(tolgee.t("startlauncher"));
         ipcRenderer.send('main-window-open');
         ipcRenderer.send('update-window-close');
     }
 
     shutdown(text) {
-        this.setStatus(`${text}<br>${t("shutdown")}`);
+        this.setStatus(`${text}<br>${tolgee.t("shutdown")}`);
         let i = 4;
         setInterval(() => {
-            // Utiliser t() avec paramètre pour le compte à rebours
-            this.setStatus(`${text}<br>${t("shutdown-in", [i--])}`);
+            // Utiliser tolgee.t() avec paramètre pour le compte à rebours
+            this.setStatus(`${text}<br>${tolgee.t("shutdown-in", [i--])}`);
             if (i < 0) ipcRenderer.send('update-window-close');
         }, 1000);
     }

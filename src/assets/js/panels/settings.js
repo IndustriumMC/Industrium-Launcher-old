@@ -58,10 +58,10 @@ class Settings {
                 // Use built-in popup system for confirmation
                 let confirmPopup = new popup();
                 confirmPopup.openPopup({
-                    title: t('confirm-title'),
+                    title: tolgee.t('confirm-title'),
                     content: `
                         <div class="confirm-content">
-                            <p>${t('confirm-delete-account')}</p>
+                            <p>${tolgee.t('confirm-delete-account')}</p>
                             <div class="popup-buttons">
                                 <button id="popup-confirm-btn" style="
                                     background: var(--element-color);
@@ -71,7 +71,7 @@ class Settings {
                                     margin: 0 0.5rem;
                                     border-radius: 5px;
                                     cursor: pointer;
-                                ">${t('yes')}</button>
+                                ">${tolgee.t('yes')}</button>
                                 <button id="popup-cancel-btn" style="
                                     background: #777;
                                     color: white;
@@ -80,7 +80,7 @@ class Settings {
                                     margin: 0 0.5rem;
                                     border-radius: 5px;
                                     cursor: pointer;
-                                ">${t('no')}</button>
+                                ">${tolgee.t('no')}</button>
                             </div>
                         </div>
                     `,
@@ -122,8 +122,8 @@ class Settings {
                             // Show notification
                             let notificationPopup = new popup();
                             notificationPopup.openPopup({
-                                title: t('account-deleted'),
-                                content: t('another-account-selected'),
+                                title: tolgee.t('account-deleted'),
+                                content: tolgee.t('another-account-selected'),
                                 color: 'var(--color)'
                             });
                             setTimeout(() => notificationPopup.closePopup(), 3000);
@@ -136,8 +136,8 @@ class Settings {
                             if (accountsBefore.length === 1) {
                                 let closePopup = new popup();
                                 closePopup.openPopup({
-                                    title: t('no-accounts'),
-                                    content: t('no-accounts-message'),
+                                    title: tolgee.t('no-accounts'),
+                                    content: tolgee.t('no-accounts-message'),
                                     color: 'var(--color)'
                                 });
                                 
@@ -153,8 +153,8 @@ class Settings {
                         // Removed account wasn't selected
                         let notificationPopup = new popup();
                         notificationPopup.openPopup({
-                            title: t('account-deleted'),
-                            content: t('account-deleted-success'),
+                            title: tolgee.t('account-deleted'),
+                            content: tolgee.t('account-deleted-success'),
                             color: 'var(--color)'
                         });
                         setTimeout(() => notificationPopup.closePopup(), 2000);
@@ -177,8 +177,8 @@ class Settings {
             let popupAccount = new popup();
             try {
                 popupAccount.openPopup({
-                    title: t('connection'),
-                    content: t('please-wait'),
+                    title: tolgee.t('connection'),
+                    content: tolgee.t('please-wait'),
                     color: 'var(--color)'
                 });
                 let account = await this.db.readData('accounts', id);
@@ -219,8 +219,10 @@ class Settings {
         let totalMem = Math.trunc(os.totalmem() / 1073741824 * 10) / 10;
         let freeMem = Math.trunc(os.freemem() / 1073741824 * 10) / 10;
 
-        document.getElementById("total-ram").textContent = `${totalMem} Go`;
-        document.getElementById("free-ram").textContent = `${freeMem} Go`;
+        const totalText = `<span id="total-ram">${totalMem} Go</span>`;
+        const freeText = `<span id="free-ram">${freeMem} Go</span>`;
+        document.querySelector('.ram-info-block1').innerHTML = tolgee.t('ram-info-block1', [totalText]);
+        document.querySelector('.ram-info-block2').innerHTML = tolgee.t('ram-info-block2', [freeText]);
 
         let sliderDiv = document.querySelector(".memory-slider");
         sliderDiv.setAttribute("max", Math.trunc((80 * totalMem) / 100));
@@ -256,9 +258,11 @@ class Settings {
     async javaPath() {
         let javaPathText = document.querySelector(".java-path-txt")
         javaPathText.textContent = `${await appdata()}/${process.platform == 'darwin' ? this.config.dataDirectory : `.${this.config.dataDirectory}`}/runtime`;
+        document.querySelector('.java-location-description').innerHTML =
+            tolgee.t('java-location-description', ["<span class=\"java-path-txt\"></span>"]); 
 
         let configClient = await this.db.readData('configClient')
-        let javaPath = configClient?.java_config?.java_path || t('use-launcher-java');
+        let javaPath = configClient?.java_config?.java_path || tolgee.t('use-launcher-java');
         let javaPathInputTxt = document.querySelector(".java-path-input-text");
         let javaPathInputFile = document.querySelector(".java-path-input-file");
         javaPathInputTxt.value = javaPath;
@@ -284,7 +288,7 @@ class Settings {
 
         document.querySelector(".java-path-reset").addEventListener("click", async () => {
             let configClient = await this.db.readData('configClient')
-            javaPathInputTxt.value = t('use-launcher-java');
+            javaPathInputTxt.value = tolgee.t('use-launcher-java');
             configClient.java_config.java_path = null
             await this.db.updateData('configClient', configClient);
         });

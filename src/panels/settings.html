@@ -1,32 +1,32 @@
 <div class="container">
     <div class="nav-settings">
-        <p data-i18n="settings-title">Paramètres</p>
+        <p>{{settings-title}}</p>
         <div class="nav-box">
-            <div id="account" class="nav-settings-btn active-settings-BTN" data-i18n="nav-settings-btn-comptes">COMPTES</div>
-            <div id="java" class="nav-settings-btn" data-i18n="nav-settings-btn-java">JAVA</div>
-            <div id="resolution" class="nav-settings-btn" data-i18n="nav-settings-btn-resolution">RESOLUTION</div>
-            <div id="launcher" class="nav-settings-btn" data-i18n="nav-settings-btn-launcher">LAUNCHER</div>
-            <div id="save" class="nav-settings-btn" data-i18n="nav-settings-btn-home">ACCUEIL</div>
+            <div id="account" class="nav-settings-btn active-settings-BTN">{{nav-settings-btn-comptes}}</div>
+            <div id="java" class="nav-settings-btn">{{nav-settings-btn-java}}</div>
+            <div id="resolution" class="nav-settings-btn">{{nav-settings-btn-resolution}}</div>
+            <div id="launcher" class="nav-settings-btn">{{nav-settings-btn-launcher}}</div>
+            <div id="save" class="nav-settings-btn">{{nav-settings-btn-home}}</div>
         </div>
     </div>
 
     <div id="account-tab" class="container-settings active-container-settings">
-        <div class="titre-tab" data-i18n="account-tab">Comptes joueurs</div>
+        <div class="titre-tab">{{account-tab}}</div>
 
         <div class="accounts-list content-scroll">
             <div class="account" id="add">
                 <div class="add-profile">
                     <div class="icon-account-add"></div>
                 </div>
-                <div class="add-text-profile" data-i18n="add-text-profile">Ajouter un compte</div>
+                <div class="add-text-profile">{{add-text-profile}}</div>
             </div>
         </div>
     </div>
 
     <div id="java-tab" class="container-settings content-scroll">
-        <div class="titre-tab" data-i18n="java-tab-ram">Paramètre de votre RAM</div>
+        <div class="titre-tab">{{java-tab-ram}}</div>
         <div class="settings-elements-box">
-            <div class="setting-text" data-i18n="java-tab-settings-text">
+            <div class="setting-text">{{java-tab-settings-text}}
                 Définition de la RAM alloué à votre jeu, une quantité plus important augmenteras les performances de
                 votre jeu.<br>
                 A noter qu'il faut éviter de mettre une trop grande quantité sinon cela peut provoquer des pertes de
@@ -49,35 +49,32 @@
                     </div>
                 </div>
                 <div class="ram-info-block">
-                    <b data-i18n="ram-info-block1" data-i18n-params='{"1": "<span id=\"total-ram\">0 Go</span>"}'>Vous possédez un total de <span id="total-ram">0 Go</span> RAM.</b><br>
-                    <b data-i18n="ram-info-block2" data-i18n-params='{"1": "<span id=\"free-ram\">0 Go</span>"}'>Vous possédez un total de <span id="free-ram">0 Go</span> RAM disponible.</b>
+                    <b class="ram-info-block1"></b><br>
+                    <b class="ram-info-block2"></b>
                 </div>
             </div>
         </div>
 
-        <div class="titre-tab" data-i18n="java-location-title">Emplacement de Java</div>
+        <div class="titre-tab">{{java-location-title}}</div>
         <div class="settings-elements-box">
-            <div class="setting-text" data-i18n="java-location-description" data-i18n-params='{"1": "<span class=\"java-path-txt\"></span>"}'>
-                Le launcher utilise une version embarquée de Java.<br>
-                Cette version est disponible dans le répertoire :<br><span class="java-path-txt"></span><br>
-                Toutefois, vous pouvez spécifier votre propre exécutable si votre jeu requiert une version de java plus
-                recente.
+            <div class="setting-text java-location-description">
+                {{java-location-description}}
             </div>
             <div class="settings-elements content-evenly">
                 <input type="text" class="java-path-input-text" disabled>
                 <input type="file" class="java-path-input-file" accept="application/octet-stream" />
                 <div class="java-path-box">
-                    <div class="java-path-set java-path-btn" data-i18n="java-path-set-java-path-btn">Changer</div>
-                    <div class="java-path-reset java-path-btn" data-i18n="java-path-reset-java-path-btn">Par defaut</div>
+                    <div class="java-path-set java-path-btn">{{java-path-set-java-path-btn}}</div>
+                    <div class="java-path-reset java-path-btn">{{java-path-reset-java-path-btn}}</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="resolution-tab" class="container-settings">
-        <div class="titre-tab" data-i18n="resolution-tab-title">Paramètres de resolution Minecraft</div>
+        <div class="titre-tab">{{resolution-tab-title}}</div>
         <div class="settings-elements-box">
-            <div class="setting-text" data-i18n="resolution-tab-description">
+            <div class="setting-text">{{resolution-tab-description}}
                 Définissez une résolution personnalisée afin d'avoir un jeu adapté à votre écran.<br>
                 Par défaut le jeu démarre en 854 X 480,<br>vous pouvez modifier cette valeur pour un confort de jeu
                 optimal. La résolution idéale est de 1280 X 720.
@@ -88,15 +85,15 @@
                     <div class="size-cross"></div>
                     <input type="number" class="height-size input-resolution">
                 </div>
-                <div class="size-reset size-btn" data-i18n="size-reset-size-btn">Par défaut</div>
+                <div class="size-reset size-btn">{{size-reset-size-btn}}</div>
             </div>
         </div>
     </div>
 
     <div id="launcher-tab" class="container-settings content-scroll">
-        <div class="titre-tab" data-i18n="launcher-tab-title">Paramètre de téléchargement</div>
+        <div class="titre-tab">{{launcher-tab-title}}</div>
         <div class="settings-elements-box">
-            <div class="setting-text" data-i18n="launcher-tab-description">
+            <div class="setting-text">{{launcher-tab-description}}
                 Ce paramètre détermine le nombre maximum de fichiers pouvant être téléchargés simultanément lors de la
                 mise à jour ou du téléchargement de ressources.<br><br>
 
@@ -108,35 +105,35 @@
             <div class="settings-elements content-center">
                 <input type="number" class="max-files input-max-files">
                 <p>Fichiers</p>
-                <div class="max-files-reset max-files-btn" data-i18n="max-files-reset-max-files-btn">Par défaut</div>
-            </div>
+                <div class="max-files-reset max-files-btn">{{max-files-reset-max-files-btn}}</div>
+        </div>
         </div>
 
-        <div class="titre-tab" data-i18n="theme-title">Thème clair et sombre</div>
+        <div class="titre-tab">{{theme-title}}</div>
         <div class="settings-elements-box">
-            <div class="setting-text" data-i18n="theme-description">
+            <div class="setting-text">{{theme-description}}
                 Choisissez entre le thème clair et le thème sombre pour personnaliser l'apparence du launcher.<br><br>
 
                 La modification du thème peut influencer la lisibilité et l'expérience visuelle.<br>
                 Sélectionnez celui qui vous convient le mieux en fonction de vos préférences.
             </div>
             <div class="settings-elements content-center theme-box">
-                <div class="theme-btn theme-btn-clair" data-i18n="theme-btn-theme-btn-light">Clair</div>
-                <div class="theme-btn theme-btn-sombre" data-i18n="theme-btn-theme-btn-dark">Sombre</div>
-                <div class="theme-btn theme-btn-auto" data-i18n="theme-btn theme-btn-auto">Automatique</div>
-            </div>
+                <div class="theme-btn theme-btn-clair">{{theme-btn-theme-btn-light}}</div>
+                <div class="theme-btn theme-btn-sombre">{{theme-btn-theme-btn-dark}}</div>
+                <div class="theme-btn theme-btn-auto">{{theme-btn theme-btn-auto}}</div>
+        </div>
         </div>
 
-        <div class="titre-tab" data-i18n="launcher-behavior-title">Comportement du launcher au démarrage</div>
+        <div class="titre-tab">{{launcher-behavior-title}}</div>
         <div class="settings-elements-box">
-            <div class="setting-text" data-i18n="launcher-behavior-description">
+            <div class="setting-text">{{launcher-behavior-description}}
                 Vous pouvez choisir si le launcher se ferme automatiquement ou reste ouvert lorsque vous lancez le jeu.
             </div>
 
             <div class="settings-elements content-evenly close-box">
-                <div class="close-launcher close-btn" data-i18n="close-launcher-close-btn">Fermer le launcher après le démarrage du jeu</div>
-                <div class="close-none close-btn" data-i18n="close-none-close-btn">Garder le launcher ouvert</div>
-                <div class="close-all close-btn" data-i18n="close-all-close-btn">Fermer le jeu si le launcher est fermé</div>
+                <div class="close-launcher close-btn">{{close-launcher-close-btn}}</div>
+                <div class="close-none close-btn">{{close-none-close-btn}}</div>
+                <div class="close-all close-btn">{{close-all-close-btn}}</div>
             </div>
         </div>
 

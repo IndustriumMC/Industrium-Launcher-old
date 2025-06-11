@@ -9,7 +9,6 @@ import Settings from './panels/settings.js';
 
 // import modules
 import { logger, config, changePanel, database, popup, setBackground, accountSelect, addAccount, pkg } from './utils.js';
-import { initTranslator } from './utils/translator.js';
 const { AZauth, Microsoft, Mojang } = require('minecraft-java-core');
 
 // libs
@@ -19,8 +18,6 @@ const os = require('os');
 
 class Launcher {
     async init() {
-        await initTranslator();
-
         this.initLog();
         console.log('Initializing Launcher...');
         this.shortcut()

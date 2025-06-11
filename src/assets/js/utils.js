@@ -14,7 +14,6 @@ import logger from './utils/logger.js';
 import popup from './utils/popup.js';
 import { skin2D } from './utils/skin.js';
 import slider from './utils/slider.js';
-import { t } from './utils/translator.js';
 
 async function setBackground(theme) {
     if (typeof theme == 'undefined') {
@@ -103,7 +102,7 @@ async function setStatus(opt) {
 
     if (!opt) {
         statusServerElement.classList.add('red')
-        statusServerElement.innerHTML = t('status-server-offline', [0]) 
+        statusServerElement.innerHTML = tolgee.t('status-server-offline', [0]) 
         document.querySelector('.status-player-count').classList.add('red')
         playersOnline.innerHTML = '0'
         return
@@ -127,7 +126,7 @@ async function setStatus(opt) {
             statusServerElement.setAttribute('data-ping', statusServer.ms);
             statusServerElement.setAttribute('data-online', 'true');
             
-            statusServerElement.innerHTML = t('status-server-ping', [statusServer.ms])
+            statusServerElement.innerHTML = tolgee.t('status-server-ping', [statusServer.ms])
             playersOnline.innerHTML = statusServer.playersConnect
         } else {
             statusServerElement.classList.add('red')
@@ -135,7 +134,7 @@ async function setStatus(opt) {
             statusServerElement.setAttribute('data-ping', '0');
             statusServerElement.setAttribute('data-online', 'false');
             
-            statusServerElement.innerHTML = t('status-server-offline', [0])
+            statusServerElement.innerHTML = tolgee.t('status-server-offline', [0])
             document.querySelector('.status-player-count').classList.add('red')
             playersOnline.innerHTML = '0'
         }

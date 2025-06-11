@@ -30,7 +30,7 @@ class Home {
                     <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
-                            <div class="title">${t('no-news-title')}</div>
+                            <div class="title">${tolgee.t('no-news-title')}</div>
                         </div>
                         <div class="date">
                             <div class="day">1</div>
@@ -39,7 +39,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>${t('no-news-content')}</p>
+                            <p>${tolgee.t('no-news-content')}</p>
                         </div>
                     </div>`
                 newsElement.appendChild(blockNews);
@@ -62,7 +62,7 @@ class Home {
                         <div class="news-content">
                             <div class="bbWrapper">
                                 <p>${News.content.replace(/\n/g, '</br>')}</p>
-                                <p class="news-author">${t('author')} - <span>${News.author}</span></p>
+                                <p class="news-author">${tolgee.t('author')} - <span>${News.author}</span></p>
                             </div>
                         </div>`
                     newsElement.appendChild(blockNews);
@@ -75,7 +75,7 @@ class Home {
                 <div class="news-header">
                         <img class="server-status-icon" src="assets/images/icon.png">
                         <div class="header-text">
-                            <div class="title">${t('error-title')}</div>
+                            <div class="title">${tolgee.t('error-title')}</div>
                         </div>
                         <div class="date">
                             <div class="day">1</div>
@@ -84,7 +84,7 @@ class Home {
                     </div>
                     <div class="news-content">
                         <div class="bbWrapper">
-                            <p>${t('error-news-content').replace(/\n/g, '</br>')}</p>
+                            <p>${tolgee.t('error-news-content').replace(/\n/g, '</br>')}</p>
                         </div>
                     </div>`
             newsElement.appendChild(blockNews);
@@ -212,8 +212,8 @@ class Home {
         if (!configClient.account_selected || accounts.length === 0) {
             let terminatePopup = new popup();
             terminatePopup.openPopup({
-                title: t('no-account'),
-                content: t('no-account-message'),
+                title: tolgee.t('no-account'),
+                content: tolgee.t('no-account-message'),
                 color: 'var(--color)'
             });
             setTimeout(() => {
@@ -235,8 +235,8 @@ class Home {
 
         if (!isStaff && options.name !== 'FlazeSMP01') {
             new popup().openPopup({
-                title: t('access-denied-title'),
-                content: t('access-denied-message'),
+                title: tolgee.t('access-denied-title'),
+                content: tolgee.t('access-denied-message'),
                 color: 'red',
                 options: true
             });
@@ -295,14 +295,14 @@ class Home {
         });
 
         launch.on('progress', (progress, size) => {
-            infoStarting.innerHTML = `${t('downloading')} ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = `${tolgee.t('downloading')} ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
         });
 
         launch.on('check', (progress, size) => {
-            infoStarting.innerHTML = `${t('verifying')} ${((progress / size) * 100).toFixed(0)}%`
+            infoStarting.innerHTML = `${tolgee.t('verifying')} ${((progress / size) * 100).toFixed(0)}%`
             ipcRenderer.send('main-window-progress', { progress, size })
             progressBar.value = progress;
             progressBar.max = size;
@@ -322,7 +322,7 @@ class Home {
         launch.on('patch', patch => {
             console.log(patch);
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = t('patching')
+            infoStarting.innerHTML = tolgee.t('patching')
         });
 
         launch.on('data', (e) => {
@@ -332,7 +332,7 @@ class Home {
             };
             new logger('Minecraft', '#36b030');
             ipcRenderer.send('main-window-progress-load')
-            infoStarting.innerHTML = t('starting')
+            infoStarting.innerHTML = tolgee.t('starting')
             console.log(e);
         })
 
@@ -343,7 +343,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = t('verification')
+            infoStarting.innerHTML = tolgee.t('verification')
             new logger(pkg.name, '#7289da');
             console.log('Close');
         });
@@ -352,7 +352,7 @@ class Home {
             let popupError = new popup()
 
             popupError.openPopup({
-                title: t('error'),
+                title: tolgee.t('error'),
                 content: err.error,
                 color: 'red',
                 options: true
@@ -364,7 +364,7 @@ class Home {
             ipcRenderer.send('main-window-progress-reset')
             infoStartingBOX.style.display = "none"
             playInstanceBTN.style.display = "flex"
-            infoStarting.innerHTML = t('verification')
+            infoStarting.innerHTML = tolgee.t('verification')
             new logger(pkg.name, '#7289da');
             console.log(err);
         });

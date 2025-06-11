@@ -36,8 +36,8 @@ class Login {
 
         microsoftBtn.addEventListener("click", () => {
             popupLogin.openPopup({
-                title: t('connect-connect-home'),
-                content: t('please-wait'),
+                title: tolgee.t('connect-connect-home'),
+                content: tolgee.t('please-wait'),
                 color: 'var(--color)'
             });
 
@@ -51,7 +51,7 @@ class Login {
                 }
             }).catch(err => {
                 popupLogin.openPopup({
-                    title: t('cancel-cancel-home'),
+                    title: tolgee.t('cancel-cancel-home'),
                     content: err,
                     options: true
                 });
@@ -65,6 +65,7 @@ class Login {
         let loginOffline = document.querySelector('.login-offline');
 
         let emailOffline = document.querySelector('.email-offline');
+        emailOffline.placeholder = tolgee.t('login-placeholder-username');
         let connectOffline = document.querySelector('.connect-offline');
         loginOffline.style.display = 'block';
 
@@ -112,6 +113,9 @@ class Login {
         let AZauthEmail = document.querySelector('.email-AZauth');
         let AZauthPassword = document.querySelector('.password-AZauth');
         let AZauthA2F = document.querySelector('.A2F-AZauth');
+        AZauthEmail.placeholder = tolgee.t('login-placeholder-email');
+        AZauthPassword.placeholder = tolgee.t('login-placeholder-password');
+        AZauthA2F.placeholder = tolgee.t('verification');
         let connectAZauthA2F = document.querySelector('.connect-AZauth-A2F');
         let AZauthConnectBTN = document.querySelector('.connect-AZauth');
         let AZauthCancelA2F = document.querySelector('.cancel-AZauth-A2F');
