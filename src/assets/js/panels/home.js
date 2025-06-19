@@ -15,7 +15,7 @@ class Home {
         this.db = new database();
         this.news()
         this.socialLick()
-        this.instancesSelect()
+        // Defer instance selection setup until accounts are refreshed
         document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
     }
 
