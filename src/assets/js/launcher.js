@@ -261,9 +261,6 @@ class Launcher {
 
             popupRefresh.closePopup()
             changePanel("home");
-            if (this.homePanel && typeof this.homePanel.instancesSelect === 'function') {
-                this.homePanel.instancesSelect();
-            }
         } else {
             popupRefresh.closePopup()
             changePanel('login');
