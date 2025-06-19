@@ -10,13 +10,21 @@ const { shell, ipcRenderer } = require('electron')
 
 class Home {
     static id = "home";
+
+    constructor() {
+        this.listenersAdded = false;
+        this.handleInstancePopupClick = this.handleInstancePopupClick.bind(this);
+        this.handleInstanceBtnClick = this.handleInstanceBtnClick.bind(this);
+        this.handleInstanceClose = this.handleInstanceClose.bind(this);
+    }
+
     async init(config) {
         this.config = config;
         this.db = new database();
-        this.news()
-        this.socialLick()
-        this.instancesSelect()
-        document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'))
+        this.news();
+        this.socialLick();
+        this.instancesSelect();
+        document.querySelector('.settings-btn').addEventListener('click', e => changePanel('settings'));
     }
 
     async news() {
@@ -117,92 +125,57 @@ class Home {
     }
 
     async instancesSelect() {
-        let configClient = await this.db.readData('configClient')
-        let auth = await this.db.readData('accounts', configClient.account_selected)
-        await this.fetchStaffList()
-        let isStaff = Array.isArray(this.staffList) && auth?.name && this.staffList.includes(auth.name)
-        let instancesList = await config.getInstanceList()
-        let instanceSelect = instancesList.find(i => i.name == configClient?.instance_selct) ? configClient?.instance_selct : null
+        let configClient = await this.db.readData('configClient');
+        let auth = await this.db.readData('accounts', configClient.account_selected);
+        await this.fetchStaffList();
 
-        let instanceBTN = document.querySelector('.play-instance')
-        let instancePopup = document.querySelector('.instance-popup')
-        let instancesListPopup = document.querySelector('.instances-List')
-        let instanceCloseBTN = document.querySelector('.close-popup')
-        let instanceArrow = document.querySelector('.instance-select')
+        this.isStaff = Array.isArray(this.staffList) && auth?.name && this.staffList.includes(auth.name);
+        this.instancesList = await config.getInstanceList();
+        this.instanceSelect = this.instancesList.find(i => i.name == configClient?.instance_selct) ? configClient?.instance_selct : null;
+
+        this.instanceBTN = document.querySelector('.play-instance');
+        this.instancePopup = document.querySelector('.instance-popup');
+        this.instancesListPopup = document.querySelector('.instances-List');
+        this.instanceCloseBTN = document.querySelector('.close-popup');
+        this.instanceArrow = document.querySelector('.instance-select');
 
         const canAccess = (inst) => {
-            if (inst.name !== 'FlazeSMP01' && !isStaff) return false;
+            if (inst.name !== 'FlazeSMP01' && !this.isStaff) return false;
             if (inst.whitelistActive) return inst.whitelist.includes(auth?.name);
             return true;
-        }
+        };
 
-        const accessibleInstances = instancesList.filter(canAccess)
+        this.canAccess = canAccess;
+
+        const accessibleInstances = this.instancesList.filter(canAccess);
 
         if (accessibleInstances.length === 1) {
-            instanceArrow.style.display = 'none'
-            instanceBTN.style.paddingRight = '0'
+            this.instanceArrow.style.display = 'none';
+            this.instanceBTN.style.paddingRight = '0';
         } else {
-            instanceArrow.style.display = ''
-            instanceBTN.style.paddingRight = ''
+            this.instanceArrow.style.display = '';
+            this.instanceBTN.style.paddingRight = '';
         }
 
-        if (!instanceSelect || !instancesList.find(i => i.name == instanceSelect && canAccess(i))) {
-            let newInstanceSelect = instancesList.find(i => i.name === 'FlazeSMP01') || instancesList[0]
-            let configClient = await this.db.readData('configClient')
-            configClient.instance_selct = newInstanceSelect.name
-            instanceSelect = newInstanceSelect.name
-            await this.db.updateData('configClient', configClient)
+        if (!this.instanceSelect || !this.instancesList.find(i => i.name == this.instanceSelect && canAccess(i))) {
+            let newInstanceSelect = this.instancesList.find(i => i.name === 'FlazeSMP01') || this.instancesList[0];
+            let configClient = await this.db.readData('configClient');
+            configClient.instance_selct = newInstanceSelect.name;
+            this.instanceSelect = newInstanceSelect.name;
+            await this.db.updateData('configClient', configClient);
         }
 
-        for (let instance of instancesList) {
-            if (!canAccess(instance)) continue
-            if (instance.name == instanceSelect) await setStatus(instance.status)
+        for (let instance of this.instancesList) {
+            if (!canAccess(instance)) continue;
+            if (instance.name == this.instanceSelect) await setStatus(instance.status);
         }
 
-        instancePopup.addEventListener('click', async e => {
-            let configClient = await this.db.readData('configClient')
-
-            if (e.target.classList.contains('instance-elements')) {
-                let newInstanceSelect = e.target.id
-                if (!canAccess(instancesList.find(i => i.name == newInstanceSelect))) return;
-                let activeInstanceSelect = document.querySelector('.active-instance')
-
-                if (activeInstanceSelect) activeInstanceSelect.classList.toggle('active-instance');
-                e.target.classList.add('active-instance');
-
-                configClient.instance_selct = newInstanceSelect
-                await this.db.updateData('configClient', configClient)
-                instanceSelect = instancesList.filter(i => i.name == newInstanceSelect)
-                instancePopup.style.display = 'none'
-                let instance = await config.getInstanceList()
-                let options = instance.find(i => i.name == configClient.instance_selct)
-                await setStatus(options.status)
-            }
-        })
-
-        instanceBTN.addEventListener('click', async e => {
-            let configClient = await this.db.readData('configClient')
-            let instanceSelect = configClient.instance_selct
-            let auth = await this.db.readData('accounts', configClient.account_selected)
-
-            if (e.target.classList.contains('instance-select')) {
-                instancesListPopup.innerHTML = ''
-                for (let instance of instancesList) {
-                    if (!canAccess(instance)) continue
-                    if (instance.name == instanceSelect) {
-                        instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`
-                    } else {
-                        instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`
-                    }
-                }
-
-                instancePopup.style.display = 'flex'
-            }
-
-            if (!e.target.classList.contains('instance-select')) this.startGame()
-        })
-
-        instanceCloseBTN.addEventListener('click', () => instancePopup.style.display = 'none')
+        if (!this.listenersAdded) {
+            this.instancePopup.addEventListener('click', this.handleInstancePopupClick);
+            this.instanceBTN.addEventListener('click', this.handleInstanceBtnClick);
+            this.instanceCloseBTN.addEventListener('click', this.handleInstanceClose);
+            this.listenersAdded = true;
+        }
     }
 
     async startGame() {
@@ -377,6 +350,47 @@ class Home {
         let day = date.getDate()
         let allMonth = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
         return { year: year, month: allMonth[month - 1], day: day }
+    }
+
+    async handleInstancePopupClick(e) {
+        let configClient = await this.db.readData('configClient');
+        if (e.target.classList.contains('instance-elements')) {
+            let newInstanceSelect = e.target.id;
+            if (!this.canAccess(this.instancesList.find(i => i.name == newInstanceSelect))) return;
+            let activeInstanceSelect = document.querySelector('.active-instance');
+            if (activeInstanceSelect) activeInstanceSelect.classList.toggle('active-instance');
+            e.target.classList.add('active-instance');
+            configClient.instance_selct = newInstanceSelect;
+            await this.db.updateData('configClient', configClient);
+            this.instanceSelect = newInstanceSelect;
+            this.instancePopup.style.display = 'none';
+            let instance = await config.getInstanceList();
+            let options = instance.find(i => i.name == configClient.instance_selct);
+            await setStatus(options.status);
+        }
+    }
+
+    async handleInstanceBtnClick(e) {
+        let configClient = await this.db.readData('configClient');
+        let instanceSelect = configClient.instance_selct;
+        await this.fetchStaffList();
+        if (e.target.classList.contains('instance-select')) {
+            this.instancesListPopup.innerHTML = '';
+            for (let instance of this.instancesList) {
+                if (!this.canAccess(instance)) continue;
+                if (instance.name == instanceSelect) {
+                    this.instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements active-instance">${instance.name}</div>`;
+                } else {
+                    this.instancesListPopup.innerHTML += `<div id="${instance.name}" class="instance-elements">${instance.name}</div>`;
+                }
+            }
+            this.instancePopup.style.display = 'flex';
+        }
+        if (!e.target.classList.contains('instance-select')) this.startGame();
+    }
+
+    handleInstanceClose() {
+        this.instancePopup.style.display = 'none';
     }
 }
 export default Home;
